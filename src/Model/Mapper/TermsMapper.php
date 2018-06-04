@@ -9,7 +9,35 @@ use Component\DataMapper;
 class TermsMapper extends DataMapper {
     
     
-    public function editTerms(){
+    public function editTerms(int $id, string $content){
         
+        try {
+            $sql = "UPDATE terms SET content = ? WHERE id = ?";
+            $statement = $this->connection->prepare($sql);
+            $success = $statement->execute([
+                $content,
+                $id
+            ]);
+            
+            if($success){
+                $result = [
+                    'status' => 200,
+                    'message' => 'Success'
+                ];
+            }else {
+                $result = [
+                    'status' => 500,
+                    'message' => 'Server error.'
+                ];
+            }
+            
+        }catch(PDOException $e){
+            return [
+                'status' => 500,
+                'message' => $e->getMessage()
+            ];
+        }
+        
+        return $result;
     }
 }

@@ -15,5 +15,15 @@ class StatisticService {
     
     public function getStatistic():ResponseBootstrap {
         
+        // create response object
+        $response = new ResponseBootstrap();
+        
+        $data = $this->statisticMapper->getStatistic();
+        
+        $response->setStatus($data['status']);
+        $response->setMessage($data['message']);
+        $response->setData($data['data']);
+        
+        return $response;
     }
 }

@@ -13,7 +13,16 @@ class TermsService {
         $this->termsMapper = $termsMapper;
     }
     
-    public function editTerms():ResponseBootstrap {
+    public function editTerms(int $id, string $content):ResponseBootstrap {
         
+        // create response object
+        $response = new ResponseBootstrap();
+        
+        $data = $this->termsMapper->editTerms($id, $content);
+        
+        $response->setStatus($data['status']);
+        $response->setMessage($data['message']);
+        
+        return $response;
     }
 }

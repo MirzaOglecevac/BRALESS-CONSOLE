@@ -17,6 +17,8 @@ class StatisticController {
     
     
     public function getStatistics(Request $request):ResponseBootstrap {
-        die('statistic');
+       
+        return $this->statisticService->getStatistic();
+        
     }
 }
