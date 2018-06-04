@@ -1,0 +1,16 @@
+imports:
+    - { resource: common/loggers.yml }
+    - { resource: common/components.yml }
+    - { resource: common/mappers.yml }
+    - { resource: common/controllers.yml }
+    - { resource: common/database.yml }
+    - { resource: configuration/configuration.yml }
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Model\Service\:
+        resource: '../../src/Model/Service/*'

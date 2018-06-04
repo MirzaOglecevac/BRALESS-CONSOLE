@@ -1,0 +1,5 @@
+services:
+
+    Component\MapperFactory:
+        arguments:
+            - '@pdo'

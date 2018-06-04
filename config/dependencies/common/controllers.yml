@@ -1,0 +1,33 @@
+services:
+
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+        
+    Application\Controller\:
+        resource: '../../../src/Application/Controller/*'
+        
+    controller.admin:
+        alias: 'Application\Controller\AdminController'
+        
+    controller.terms:
+        alias: 'Application\Controller\TermsController'    
+        
+    controller.user:
+        alias: 'Application\Controller\UserController' 
+        
+    controller.pornstar:
+        alias: 'Application\Controller\PornstarController'  
+        
+    controller.video:
+        alias: 'Application\Controller\VideoController'  
+        
+    controller.image:
+        alias: 'Application\Controller\ImageController'  
+        
+    controller.statistic:
+        alias: 'Application\Controller\StatisticController'    
+        
+    controller.permission:
+        alias: 'Application\Controller\PermissionController'                 

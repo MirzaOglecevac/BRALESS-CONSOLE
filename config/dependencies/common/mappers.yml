@@ -1,0 +1,48 @@
+services:
+
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+
+    Model\Mapper\AdminMapper:
+        factory: Component\MapperFactory:create
+        arguments:
+            - 'Model\Mapper\AdminMapper'
+            
+    Model\Mapper\TermsMapper:
+        factory: Component\MapperFactory:create
+        arguments:
+            - 'Model\Mapper\TermsMapper'    
+            
+    Model\Mapper\UserMapper:
+        factory: Component\MapperFactory:create
+        arguments:
+            - 'Model\Mapper\UserMapper' 
+            
+    Model\Mapper\PornstarMapper:
+        factory: Component\MapperFactory:create
+        arguments:
+            - 'Model\Mapper\PornstarMapper' 
+            
+    Model\Mapper\VideoMapper:
+        factory: Component\MapperFactory:create
+        arguments:
+            - 'Model\Mapper\VideoMapper'   
+            
+    Model\Mapper\ImageMapper:
+        factory: Component\MapperFactory:create
+        arguments:
+            - 'Model\Mapper\ImageMapper'
+            
+    Model\Mapper\StatisticMapper:
+        factory: Component\MapperFactory:create
+        arguments:
+            - 'Model\Mapper\StatisticMapper' 
+            
+    Model\Mapper\PermissionMapper:
+        factory: Component\MapperFactory:create
+        arguments:
+            - 'Model\Mapper\PermissionMapper'                       
+                                   

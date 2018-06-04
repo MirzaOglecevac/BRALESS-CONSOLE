@@ -1,0 +1,2 @@
+parameters:
+    database.dsn: 'mysql:host=localhost;dbname=Spartan2.0'

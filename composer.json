@@ -1,0 +1,35 @@
+{
+	"name" : "spartanapps/exercises",
+	"description" : "Spartan Apps Exercises Microservice",
+	"type" : "project",
+	"license" : "mit",
+	"authors" : [{
+			"name" : "Arslan Hajdarevic",
+			"email" : "terminatorarslan@gmail.com"
+		}
+	],
+	"minimum-stability" : "dev",
+	"autoload" : {
+		"psr-4" : {
+			"" : "src/"
+		}
+	},
+	"require" : {
+		"php" : ">=7.2",
+		"ext-pdo" : "*",
+		"symfony/http-foundation" : "^4.0",
+		"symfony/dependency-injection" : "^4.0",
+		"symfony/config" : "^4.0",
+		"symfony/yaml" : "^4.0",
+		"symfony/routing" : "^4.0",
+		"doctrine/annotations" : "^1.7@dev",
+		"symfony/console" : "^4.1@dev",
+		"symfony/expression-language" : "^4.1@dev",
+		"symfony/finder" : "^4.1@dev",
+		"symfony/proxy-manager-bridge" : "^4.1@dev",
+		"ocramius/generated-hydrator" : "^2.2@dev",
+		"symfony/event-dispatcher" : "^4.1@dev",
+		"symfony/lock" : "^4.1@dev",
+		"symfony/process" : "^4.1@dev"
+	}
+}
