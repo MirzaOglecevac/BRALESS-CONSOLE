@@ -95,8 +95,38 @@ class VideoController {
         // create response object
         $response = new ResponseBootstrap();
         
-        if(isset($id)){
+        if(isset($id) && isset($title) && isset($description) && isset($category) && isset($thumbnail) && isset($videoUrl) && isset($downloadLink) && isset($hd) && isset($date) && isset($views) && isset($length)){
             return $this->videoService->updateData($id, $title, $description, $category, $thumbnail, $videoUrl, $downloadLink, $hd, $date, $views, $length);
+        }else {
+            $response->setStatus(404);
+            $response->setMessage('Bad request.');
+        }
+        
+        return $response;
+    }
+    
+    
+    
+    public function postData(Request $request):ResponseBootstrap {
+        
+        // take parametar from the body
+        $data = json_decode($request->getContent(), true);
+        $title = $data['title'];
+        $description = $data['description'];
+        $category = $data['category'];
+        $thumbnail = $data['thumbnail'];
+        $videoUrl = $data['video_url'];
+        $downloadLink = $data['download_link'];
+        $hd = $data['hd'];
+        $views = $data['views'];
+        $length = $data['length'];
+        $pornstarId = array_key_exists('pornstar_id', $data) ? $data['pornstar_id'] : 'false';
+        
+        // create response object
+        $response = new ResponseBootstrap();
+        
+        if(isset($title) && isset($description) && isset($category) && isset($thumbnail) && isset($videoUrl) && isset($downloadLink) && isset($hd)  && isset($views) && isset($length)){
+            return $this->videoService->addData($title, $description, $category, $thumbnail, $videoUrl, $downloadLink, $hd, $pornstarId, $views, $length);
         }else {
             $response->setStatus(404);
             $response->setMessage('Bad request.');

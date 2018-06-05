@@ -11,6 +11,7 @@ use Model\Entity\VideoComments;
 
 class VideoMapper extends DataMapper {
     
+    
     public function getVideos(int $from, int $limit){
         
         try {
@@ -20,7 +21,7 @@ class VideoMapper extends DataMapper {
                         COUNT(DISTINCT dis.id) AS dislikes
                     FROM videos AS vid 
                     LEFT JOIN video_likes AS lik ON vid.id = lik.videos_id
-                    LEFT JOIN video_dislikes dis ON vid.id = dis.videos_id
+                    LEFT JOIN video_dislikes AS dis ON vid.id = dis.videos_id
                     GROUP BY vid.id 
                     ORDER BY COUNT(lik.videos_id) DESC LIMIT :from,:limit";
             $statement = $this->connection->prepare($sql);
@@ -187,8 +188,7 @@ class VideoMapper extends DataMapper {
     public function updateData(Videos $video){
         
         try {
-            
-        
+
             $sql = "UPDATE videos SET
                         title = ?,
                         description = ?,
@@ -233,6 +233,65 @@ class VideoMapper extends DataMapper {
             
         }catch(PDOException $e){
             
+            return [
+                'status' => 500,
+                'message' => $e->getMessage(),
+                'data' => []
+            ];
+        }
+        
+        return $result;
+    }
+    
+    
+    
+    public function addData(Videos $video){
+        
+        try {
+            
+            $sql = "INSERT INTO videos (title, description, category, thumbnail, video_url, download_link, hd, views, length)
+                        VALUES (?, ?, ?, ? , ?, ?, ?, ?, ?)";
+            
+            $statement = $this->connection->prepare($sql);
+            $success = $statement->execute([
+                $video->getTitle(),
+                $video->getDescription(),
+                $video->getCategory(),
+                $video->getThumbnail(),
+                $video->getVideoUrl(),
+                $video->getDownloadLink(),
+                $video->getHd(),
+                $video->getViews(),
+                $video->getLength()
+            ]);
+            
+            if($success){
+                
+                if($video->getPornstarId() !== 'false'){
+                    $sql = "INSERT INTO pornstars_has_videos (pornstars_id, videos_id)
+                                VALUES (?, ?)";
+                    $statement = $this->connection->prepare($sql);
+                    $statement->execute([
+                        $video->getPornstarId(),
+                        $this->connection->lastInsertId()
+                    ]);
+                }
+                
+                $result = [
+                    'status' => 200,
+                    'message' => 'Success',
+                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                ];
+            }else {
+                $result = [
+                    'status' => 304,
+                    'message' => 'Not modified.',
+                    'data' => []
+                ];
+            }
+            
+        }catch(PDOException $e){
+           
             return [
                 'status' => 500,
                 'message' => $e->getMessage(),

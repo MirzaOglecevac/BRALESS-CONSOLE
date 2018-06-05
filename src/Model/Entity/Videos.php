@@ -15,8 +15,28 @@ class Videos {
     private $downloadLink;
     private $date;
     private $hd;
+    private $pornstarId;
     
     
+    
+    
+    
+    /**
+     * @return mixed
+     */
+    public function getPornstarId()
+    {
+        return $this->pornstarId;
+    }
+
+    /**
+     * @param mixed $pornstarId
+     */
+    public function setPornstarId($pornstarId)
+    {
+        $this->pornstarId = $pornstarId;
+    }
+
     /**
      * @return mixed
      */

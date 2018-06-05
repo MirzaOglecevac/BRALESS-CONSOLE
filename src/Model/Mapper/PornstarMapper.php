@@ -208,9 +208,11 @@ class PornstarMapper extends DataMapper {
             $sql = "SELECT 
                         porn.*, 
 						COUNT(DISTINCT center.id) AS num_of_videos,
-						COUNT(DISTINCT sub.id) AS subscribers
+						COUNT(DISTINCT sub.id) AS subscribers,
+                        COUNT(DISTINCT centerimg.id) AS num_of_images
                     FROM pornstars AS porn
 					LEFT JOIN pornstars_has_videos AS center ON porn.id = center.pornstars_id
+                    LEFT JOIN pornstars_has_images AS centerimg ON porn.id = centerimg.pornstars_id
                     LEFT JOIN pornstar_subscribers AS sub ON porn.id = sub.pornstars_id
                     WHERE porn.id = ?
                     GROUP BY porn.id";

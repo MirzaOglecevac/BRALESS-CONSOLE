@@ -92,6 +92,34 @@ class VideoService {
     
     
     
+    public function addData(string $title, string $description, string $category, string $thumbnail, string $videoUrl, string $downloadLink, string $hd, string $pornstarId, int $views, int $length):ResponseBootstrap {
+        
+        // create response object
+        $response = new ResponseBootstrap();
+        
+        // create entity and set its values
+        $video = new Videos();
+        $video->setTitle($title);
+        $video->setCategory($category);
+        $video->setDescription($description);
+        $video->setThumbnail($thumbnail);
+        $video->setVideoUrl($videoUrl);
+        $video->setDownloadLink($downloadLink);
+        $video->setHd($hd);
+        $video->setViews($views);
+        $video->setLength($length);
+        $video->setPornstarId($pornstarId);
+        
+        $data = $this->videoMapper->addData($video);
+        
+        $response->setStatus($data['status']);
+        $response->setMessage($data['message']);
+        
+        return $response;
+    }
+    
+    
+    
     public function updateTag(int $id, string $name):ResponseBootstrap {
         
         // create response object
