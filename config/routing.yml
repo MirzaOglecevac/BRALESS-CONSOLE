@@ -1,4 +1,5 @@
 # home
+
 root:
     path: /
     defaults:
@@ -11,35 +12,44 @@ admin:
         resource: "admin"
         slash: "[/]{0,1}"
     methods: [GET, POST, PUT, DELETE]
+
     
+
 terms:
     path: /{resource}/{action}{slash}
     requirements:
         resource: "terms"
         slash: "[/]{0,1}"
     methods: [GET, POST, PUT, DELETE]    
+
     
+
 user:
     path: /{resource}/{action}{slash}
     requirements:
         resource: "user"
         slash: "[/]{0,1}"
     methods: [GET, POST, PUT, DELETE]  
+
     
+
 pornstar:
     path: /{resource}/{action}{slash}
     requirements:
         resource: "pornstar"
         slash: "[/]{0,1}"
     methods: [GET, POST, PUT, DELETE] 
+
     
+
 video:
     path: /{resource}/{action}{slash}
     requirements:
         resource: "video"
         slash: "[/]{0,1}"
     methods: [GET, POST, PUT, DELETE] 
-    
+ 
+
 image:
     path: /{resource}/{action}{slash}
     requirements:
@@ -53,10 +63,3 @@ statistic:
         resource: "statistic"
         slash: "[/]{0,1}"
     methods: [GET, POST, PUT, DELETE] 
-    
-permission:
-    path: /{resource}/{action}{slash}
-    requirements:
-        resource: "permission"
-        slash: "[/]{0,1}"
-    methods: [GET, POST, PUT, DELETE]                           

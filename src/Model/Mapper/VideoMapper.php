@@ -12,6 +12,13 @@ use Model\Entity\VideoComments;
 class VideoMapper extends DataMapper {
     
     
+    /**
+     * Get videos mapper
+     * 
+     * @param int $from
+     * @param int $limit
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function getVideos(int $from, int $limit){
         
         try {
@@ -33,12 +40,12 @@ class VideoMapper extends DataMapper {
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
+                    'status' => 304,
+                    'message' => 'Couldnt get data.',
                     'data' => []
                 ];
             }
@@ -55,7 +62,12 @@ class VideoMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Get search results mapper
+     * 
+     * @param string $term
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function getSearch(string $term){
         
         try {
@@ -80,12 +92,12 @@ class VideoMapper extends DataMapper {
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
+                    'status' => 304,
+                    'message' => 'Couldnt get data.',
                     'data' => []
                 ];
             }
@@ -103,7 +115,12 @@ class VideoMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Get video data mapper
+     * 
+     * @param int $id
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function getVideoData(int $id){
         
         try {
@@ -126,9 +143,9 @@ class VideoMapper extends DataMapper {
             
             // get video tags
             $sqlTag = "SELECT
-                        * 
-                    FROM video_tags
-                    WHERE videos_id = ?";
+                       * 
+                       FROM video_tags
+                       WHERE videos_id = ?";
             
             $statementTag = $this->connection->prepare($sqlTag);
             $successTag = $statementTag->execute([
@@ -136,14 +153,14 @@ class VideoMapper extends DataMapper {
             ]);
             
             // get video comments
-            $sqlCom = "SELECT 
-                        com.* ,
-                        us.profile_image,
-                        us.username
-                    FROM video_comments AS com
-                    LEFT JOIN users AS us ON  us.id = com.users_id
-                    WHERE videos_id = ? 
-                    GROUP BY com.id";
+            $sqlCom  =  "SELECT 
+                            com.* ,
+                            us.profile_image,
+                            us.username
+                        FROM video_comments AS com
+                        LEFT JOIN users AS us ON  us.id = com.users_id
+                        WHERE videos_id = ? 
+                        GROUP BY com.id";
             
             $statementCom = $this->connection->prepare($sqlCom);
             $successCom = $statementCom->execute([
@@ -161,7 +178,7 @@ class VideoMapper extends DataMapper {
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
-                    'data' => $data
+                    'data' => ['data' => $data]
                 ];
             }else {
                 $result = [
@@ -184,7 +201,12 @@ class VideoMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Update video data mapper
+     * 
+     * @param Videos $video
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function updateData(Videos $video){
         
         try {
@@ -220,14 +242,12 @@ class VideoMapper extends DataMapper {
             if($success){
                 $result = [
                     'status' => 200,
-                    'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'message' => 'Success'
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
-                    'data' => []
+                    'status' => 304,
+                    'message' => 'Not modified.'
                 ];
             }
             
@@ -235,16 +255,20 @@ class VideoMapper extends DataMapper {
             
             return [
                 'status' => 500,
-                'message' => $e->getMessage(),
-                'data' => []
+                'message' => $e->getMessage()
             ];
         }
         
         return $result;
     }
     
-    
-    
+   
+    /**
+     * Add video mapper
+     * 
+     * @param Videos $video
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function addData(Videos $video){
         
         try {
@@ -279,14 +303,12 @@ class VideoMapper extends DataMapper {
                 
                 $result = [
                     'status' => 200,
-                    'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'message' => 'Success'
                 ];
             }else {
                 $result = [
                     'status' => 304,
-                    'message' => 'Not modified.',
-                    'data' => []
+                    'message' => 'Not modified.'
                 ];
             }
             
@@ -294,8 +316,7 @@ class VideoMapper extends DataMapper {
            
             return [
                 'status' => 500,
-                'message' => $e->getMessage(),
-                'data' => []
+                'message' => $e->getMessage()
             ];
         }
         
@@ -303,7 +324,12 @@ class VideoMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Edit tag mapper
+     * 
+     * @param VideoTags $tags
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function updateTag(VideoTags $tags){
         
         try {
@@ -319,23 +345,19 @@ class VideoMapper extends DataMapper {
             if($success){
                 $result = [
                     'status' => 200,
-                    'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'message' => 'Success'
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
-                    'data' => []
+                    'status' => 304,
+                    'message' => 'Not modified.'
                 ];
             }
             
         }catch(PDOException $e){
-            
             return [
                 'status' => 500,
-                'message' => $e->getMessage(),
-                'data' => []
+                'message' => $e->getMessage()
             ];
         }
         
@@ -343,7 +365,12 @@ class VideoMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Edit video comment mapper
+     * 
+     * @param VideoComments $comment
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function updateComment(VideoComments $comment){
         
         try {
@@ -367,14 +394,12 @@ class VideoMapper extends DataMapper {
             if($success){
                 $result = [
                     'status' => 200,
-                    'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'message' => 'Success'
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
-                    'data' => []
+                    'status' => 304,
+                    'message' => 'Not modified.'
                 ];
             }
             
@@ -382,8 +407,7 @@ class VideoMapper extends DataMapper {
          
             return [
                 'status' => 500,
-                'message' => $e->getMessage(),
-                'data' => []
+                'message' => $e->getMessage()
             ];
         }
         
@@ -391,12 +415,17 @@ class VideoMapper extends DataMapper {
     }
     
     
+    /**
+     * Delete video mapper
+     * 
+     * @param int $id
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function deleteVideoData(int $id){
         
         try {
                       
             $sql = "DELETE FROM videos WHERE id = ?";
-            
             $statement = $this->connection->prepare($sql);
             $success = $statement->execute([
                $id
@@ -405,23 +434,58 @@ class VideoMapper extends DataMapper {
             if($success){
                 $result = [
                     'status' => 200,
-                    'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'message' => 'Success'
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
-                    'data' => []
+                    'status' => 304,
+                    'message' => 'Not modified.'
                 ];
             }
             
         }catch(PDOException $e){
-            
             return [
                 'status' => 500,
-                'message' => $e->getMessage(),
-                'data' => []
+                'message' => $e->getMessage()
+            ];
+        }
+        
+        return $result;
+    }
+    
+    
+    /**
+     * Delete video comment mapper
+     * 
+     * @param int $id
+     * @return number[]|NULL[]|number[]|string[]
+     */
+    public function deleteComment(int $id){
+        
+        try {
+            
+            $sql = "DELETE FROM video_comments WHERE id = ?";
+            $statement = $this->connection->prepare($sql);
+            $success = $statement->execute([
+                $id
+            ]);
+            
+            if($success){
+                $result = [
+                    'status' => 200,
+                    'message' => 'Success'
+                ];
+            }else {
+                $result = [
+                    'status' => 304,
+                    'message' => 'Not modified.'
+                ];
+            }
+            
+        }catch(PDOException $e){
+            return [
+                'status' => 500,
+                'message' => $e->getMessage()
             ];
         }
         

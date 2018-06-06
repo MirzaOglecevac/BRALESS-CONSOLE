@@ -8,6 +8,9 @@ services:
     Application\Controller\:
         resource: '../../../src/Application/Controller/*'
         
+    controller.landing:
+        alias: 'Application\Controller\Landing'
+        
     controller.admin:
         alias: 'Application\Controller\AdminController'
         
@@ -28,6 +31,4 @@ services:
         
     controller.statistic:
         alias: 'Application\Controller\StatisticController'    
-        
-    controller.permission:
-        alias: 'Application\Controller\PermissionController'                 
+    

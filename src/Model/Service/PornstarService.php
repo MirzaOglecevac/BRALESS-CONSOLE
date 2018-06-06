@@ -14,6 +14,14 @@ class PornstarService {
         $this->pornstarMapper = $pornstarMapper;
     }
     
+    
+    /**
+     * Get pornstars service
+     * 
+     * @param int $from
+     * @param int $limit
+     * @return ResponseBootstrap
+     */
     public function getPornstars(int $from, int $limit):ResponseBootstrap {
         
         // create response object
@@ -29,6 +37,18 @@ class PornstarService {
     }
     
     
+    /**
+     * Edit pornstar data service
+     * 
+     * @param int $id
+     * @param string $name
+     * @param string $sex
+     * @param int $age
+     * @param string $about
+     * @param string $profileImage
+     * @param string $bannerImage
+     * @return \Model\Entity\ResponseBootstrap
+     */
     public function updatePornstar(int $id, string $name, string $sex, int $age, string $about, string $profileImage, string $bannerImage){
         
         // create response object
@@ -53,7 +73,12 @@ class PornstarService {
     }
     
     
-    
+    /**
+     * Delete pornstar service
+     * 
+     * @param int $id
+     * @return ResponseBootstrap
+     */
     public function deletePornstars(int $id):ResponseBootstrap {
         
         // create response object
@@ -68,7 +93,12 @@ class PornstarService {
     }
     
     
-    
+    /**
+     * Get search results service
+     * 
+     * @param string $term
+     * @return ResponseBootstrap
+     */
     public function searchPornstars(string $term):ResponseBootstrap {
         
         // create response object
@@ -84,7 +114,17 @@ class PornstarService {
     }
     
     
-    
+    /**
+     * Add pornstar service
+     * 
+     * @param string $name
+     * @param string $sex
+     * @param int $age
+     * @param string $about
+     * @param string $profileImage
+     * @param string $bannerImage
+     * @return \Model\Entity\ResponseBootstrap
+     */
     public function addPornstar(string $name, string $sex, int $age, string $about, string $profileImage, string $bannerImage){
         
         // create response object
@@ -108,7 +148,12 @@ class PornstarService {
     }
     
     
-    
+    /**
+     * Get pornstar profile service
+     * 
+     * @param int $id
+     * @return ResponseBootstrap
+     */
     public function getPornstarProfile(int $id):ResponseBootstrap {
         
         // create response object

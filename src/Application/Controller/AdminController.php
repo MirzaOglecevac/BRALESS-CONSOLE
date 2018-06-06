@@ -2,7 +2,6 @@
 
 namespace Application\Controller;
 
-
 use Symfony\Component\HttpFoundation\Request;
 use Model\Service\AdminService;
 use Model\Entity\ResponseBootstrap;
@@ -16,6 +15,12 @@ class AdminController {
     }
     
     
+    /**
+     * Get all admins controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function getAll(Request $request):ResponseBootstrap {
         
        return $this->adminService->getAllAdmins();
@@ -23,6 +28,12 @@ class AdminController {
     }
     
     
+    /**
+     * Update admin properties controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function putInfo(Request $request):ResponseBootstrap {
         
         // take parametar from the body
@@ -47,6 +58,12 @@ class AdminController {
     }
     
     
+    /**
+     * Add admin controller 
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function postAdd(Request $request):ResponseBootstrap {
       
         // take parametar from the body
@@ -71,7 +88,12 @@ class AdminController {
     }
     
     
-    
+    /**
+     * Delete admin controller 
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function deleteRemove(Request $request):ResponseBootstrap {
         
         // get id from url

@@ -15,6 +15,12 @@ class UserController {
     }
     
     
+    /**
+     * Get users controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function getUsers(Request $request):ResponseBootstrap {
         
         // take data from url
@@ -35,7 +41,12 @@ class UserController {
     }
     
     
-    
+    /**
+     * Edit user data controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function putEdit(Request $request):ResponseBootstrap {
         
         // take parametar from the body
@@ -61,7 +72,12 @@ class UserController {
     }
     
     
-    
+    /**
+     * Delete user controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function deleteRemove(Request $request):ResponseBootstrap {
         
         // take data from url
@@ -81,7 +97,12 @@ class UserController {
     }
     
     
-    
+    /**
+     * Get search results controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function getSearch(Request $request):ResponseBootstrap {
         
         // take data from url
@@ -101,6 +122,12 @@ class UserController {
     }
     
     
+    /**
+     * Add user controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function postAdd(Request $request):ResponseBootstrap {
         
         // take parametar from the body

@@ -9,10 +9,22 @@ use Model\Entity\Pornstar;
 
 class PornstarMapper extends DataMapper {
  
+    
+    /**
+     * Get pornstars mapper
+     * 
+     * @param int $from
+     * @param int $limit
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function getPornstars(int $from, int $limit){
         
         try {
-            $sql = "SELECT * FROM pornstars LIMIT :from,:limit";
+            $sql = "SELECT 
+                      *
+                    FROM 
+                    pornstars
+                    LIMIT :from,:limit";
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(':from', $from, PDO::PARAM_INT);
             $statement->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -22,7 +34,7 @@ class PornstarMapper extends DataMapper {
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
             }else {
                 $result = [
@@ -44,6 +56,12 @@ class PornstarMapper extends DataMapper {
     }
     
     
+    /**
+     * Edit pornstar data mapper
+     * 
+     * @param Pornstar $pornstar
+     * @return number[]|NULL[]|number[]|string[]
+     */
     public function updatePornstar(Pornstar $pornstar){
         
         try {
@@ -89,7 +107,12 @@ class PornstarMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Delete pornstar mapper
+     * 
+     * @param int $id
+     * @return number[]|NULL[]|number[]|string[]
+     */
     public function deletePornstars(int $id){
         
         try {
@@ -106,8 +129,8 @@ class PornstarMapper extends DataMapper {
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.'
+                    'status' => 304,
+                    'message' => 'Not modified.'
                 ];
             }
             
@@ -122,7 +145,12 @@ class PornstarMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Get search results mapper
+     * 
+     * @param string $term
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function searchPornstars(string $term){
         
         try {
@@ -143,8 +171,8 @@ class PornstarMapper extends DataMapper {
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
+                    'status' => 304,
+                    'message' => 'Not modified.',
                     'data' => []
                 ];
             }
@@ -161,7 +189,12 @@ class PornstarMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Add pornstar mapper
+     * 
+     * @param Pornstar $pornstar
+     * @return number[]|NULL[]|number[]|string[]
+     */
     public function addPornstar(Pornstar $pornstar){
         
         try {
@@ -185,8 +218,8 @@ class PornstarMapper extends DataMapper {
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.'
+                    'status' => 304,
+                    'message' => 'Not modified.'
                 ];
             }
             
@@ -200,8 +233,13 @@ class PornstarMapper extends DataMapper {
         return $result;
     }
     
-    
-    
+
+    /**
+     * Get pornstar profile mapper
+     * 
+     * @param int $id
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function getProfile(int $id){
         
         try {
@@ -225,12 +263,12 @@ class PornstarMapper extends DataMapper {
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
+                    'status' => 304,
+                    'message' => 'Couldnt get data.',
                     'data' => []
                 ];
             }

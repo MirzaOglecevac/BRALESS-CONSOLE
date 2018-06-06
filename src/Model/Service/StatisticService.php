@@ -13,6 +13,12 @@ class StatisticService {
         $this->statisticMapper = $statisticMapper;
     }
     
+    
+    /**
+     * Get statistic service
+     * 
+     * @return ResponseBootstrap
+     */
     public function getStatistic():ResponseBootstrap {
         
         // create response object

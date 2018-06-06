@@ -15,6 +15,12 @@ class TermsController {
     }
     
     
+    /**
+     * Update terms and conditions controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function putEdit(Request $request):ResponseBootstrap {
         
         // get data from url

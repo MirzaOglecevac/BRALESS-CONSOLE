@@ -9,6 +9,14 @@ use Model\Entity\Users;
 
 class UserMapper extends DataMapper {
     
+    
+    /**
+     * Get users mapper
+     * 
+     * @param int $from
+     * @param int $limit
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function getUsers(int $from, int $limit){
         
         try {
@@ -22,12 +30,12 @@ class UserMapper extends DataMapper {
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
+                    'status' => 304,
+                    'message' => 'Couldnt get data',
                     'data' => []
                 ];
             }
@@ -44,6 +52,12 @@ class UserMapper extends DataMapper {
     }
     
     
+    /**
+     * Edit user data mapper
+     * 
+     * @param Users $user
+     * @return number[]|NULL[]|number[]|string[]
+     */
     public function updateUser(Users $user){
         
         try {
@@ -71,8 +85,8 @@ class UserMapper extends DataMapper {
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.'
+                    'status' => 304,
+                    'message' => 'Not modified.'
                 ];
             }
             
@@ -87,7 +101,12 @@ class UserMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Delete user mapper
+     * 
+     * @param int $id
+     * @return number[]|NULL[]|number[]|string[]
+     */
     public function deleteUsers(int $id){
         
         try {
@@ -104,8 +123,8 @@ class UserMapper extends DataMapper {
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.'
+                    'status' => 304,
+                    'message' => 'Not modified.'
                 ];
             }
             
@@ -120,7 +139,12 @@ class UserMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Get search results mapper
+     * 
+     * @param string $term
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function searchUsers(string $term){
         
         try {
@@ -137,12 +161,12 @@ class UserMapper extends DataMapper {
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
+                    'status' => 304,
+                    'message' => 'Couldnt collect data.',
                     'data' => []
                 ];
             }
@@ -159,7 +183,12 @@ class UserMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Add user mapper
+     * 
+     * @param Users $user
+     * @return number[]|NULL[]|number[]|string[]
+     */
     public function addUser(Users $user){
         
         try {
@@ -182,8 +211,8 @@ class UserMapper extends DataMapper {
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.'
+                    'status' => 304,
+                    'message' => 'Not modified.'
                 ];
             }
             

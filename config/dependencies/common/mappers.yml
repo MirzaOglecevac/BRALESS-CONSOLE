@@ -5,7 +5,6 @@ services:
         autoconfigure: true
         public: false
 
-
     Model\Mapper\AdminMapper:
         factory: Component\MapperFactory:create
         arguments:
@@ -40,9 +39,4 @@ services:
         factory: Component\MapperFactory:create
         arguments:
             - 'Model\Mapper\StatisticMapper' 
-            
-    Model\Mapper\PermissionMapper:
-        factory: Component\MapperFactory:create
-        arguments:
-            - 'Model\Mapper\PermissionMapper'                       
-                                   
+

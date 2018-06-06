@@ -13,6 +13,14 @@ class TermsService {
         $this->termsMapper = $termsMapper;
     }
     
+    
+    /**
+     * Update terms and conditions service
+     * 
+     * @param int $id
+     * @param string $content
+     * @return ResponseBootstrap
+     */
     public function editTerms(int $id, string $content):ResponseBootstrap {
         
         // create response object

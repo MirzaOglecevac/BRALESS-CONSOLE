@@ -15,6 +15,12 @@ class VideoController {
     }
     
     
+    /**
+     * Get videos controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function getVideos(Request $request):ResponseBootstrap {
        
         // take data from url
@@ -35,7 +41,12 @@ class VideoController {
     }
     
     
-    
+    /**
+     * Get search results controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function getSearch(Request $request):ResponseBootstrap {
         
         // take data from url
@@ -55,7 +66,12 @@ class VideoController {
     }
     
     
-    
+    /**
+     * Get video data controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function getData(Request $request):ResponseBootstrap {
         
         // take data from url
@@ -75,7 +91,12 @@ class VideoController {
     }
     
     
-    
+    /**
+     * Update video data controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function putData(Request $request):ResponseBootstrap {
         
         // take parametar from the body
@@ -106,7 +127,12 @@ class VideoController {
     }
     
     
-    
+    /**
+     * Add video controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function postData(Request $request):ResponseBootstrap {
         
         // take parametar from the body
@@ -135,6 +161,13 @@ class VideoController {
         return $response;
     }
     
+    
+    /**
+     * Edit tag controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function putTag(Request $request):ResponseBootstrap {
         
         // take parametar from the body
@@ -156,6 +189,12 @@ class VideoController {
     }
     
     
+    /**
+     * Edit video comment controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function putComment(Request $request):ResponseBootstrap {
         
         // take parametar from the body
@@ -180,7 +219,12 @@ class VideoController {
     }
     
     
-    
+    /**
+     * Delete video controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function deleteRemove(Request $request):ResponseBootstrap {
         
         // take data from url
@@ -191,6 +235,31 @@ class VideoController {
         
         if(isset($id)){
             return $this->videoService->deleteVideoData($id);
+        }else {
+            $response->setStatus(404);
+            $response->setMessage('Bad request.');
+        }
+        
+        return $response;
+    }
+    
+    
+    /**
+     * Delete video comment controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
+    public function deleteComment(Request $request):ResponseBootstrap {
+        
+        // take data from url
+        $id = $request->get('id');
+        
+        // create response object
+        $response = new ResponseBootstrap();
+        
+        if(isset($id)){
+            return $this->videoService->deleteComment($id);
         }else {
             $response->setStatus(404);
             $response->setMessage('Bad request.');

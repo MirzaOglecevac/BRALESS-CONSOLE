@@ -9,6 +9,13 @@ use Component\DataMapper;
 class TermsMapper extends DataMapper {
     
     
+    /**
+     * Update terms and conditions mapper
+     * 
+     * @param int $id
+     * @param string $content
+     * @return number[]|NULL[]|number[]|string[]
+     */
     public function editTerms(int $id, string $content){
         
         try {

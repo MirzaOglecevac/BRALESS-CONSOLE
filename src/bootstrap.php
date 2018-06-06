@@ -1,5 +1,4 @@
 <?php
-
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Loader\DelegatingLoader;
@@ -11,14 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Model\Entity\ResponseBootstrap;
-
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/functions.php';
 $request = Request::createFromGlobals();
 $locator = new FileLocator(__DIR__ . '/../config');
-
 $data = new ResponseBootstrap();
-
 // DI container
 $container = new DependencyInjection\ContainerBuilder;
 $container->setParameter('path.root', __DIR__);
@@ -28,7 +24,6 @@ $resolver = new LoaderResolver(
         new PhpFileLoader($container, $locator),
     ]
     );
-
 $loader = new DelegatingLoader($resolver);
 $loader->load('config-development.yml');
 $container->compile();
@@ -47,9 +42,11 @@ try {
     foreach ($parameters as $key => $value) {
         $request->attributes->set($key, $value);
     }
+
     $command = $request->getMethod() . $request->get('action');
     $controller = $container->get('controller.' . $request->get('resource'));
-    $controller->{$command}($request);
+        
+    //$controller->{$command}($request);
     $data = $controller->{$command}($request);
     
 } catch (\Exception $exception) {
@@ -71,25 +68,21 @@ if(!empty($data->getData())){
     // Not json
     $response = new Response;
 }
-
 //Set custom headers
 $response->setStatusCode(
     (int)$data->getStatus(),
     empty($data->getMessage()) ? $data->getMessage() : null
 );
-
 // preflighted request handle
 if($request->getMethod() === 'OPTIONS'){
     // set status
     $response->setStatusCode((int)200);
 }
-
 // headers
 $response->headers->set('Access-Control-Allow-Origin', '*');
 $response->headers->set('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
 $response->headers->set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 $response->headers->set('Access-Control-Allow-Credentials', 'true');
 $response->headers->set("Access-Control-Max-Age", "1728000");
-
 // return response
 $response->send();

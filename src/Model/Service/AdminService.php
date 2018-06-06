@@ -15,6 +15,11 @@ class AdminService {
     }
     
     
+    /**
+     * Get all admins service
+     * 
+     * @return ResponseBootstrap
+     */
     public function getAllAdmins():ResponseBootstrap{
         
         // create response object 
@@ -31,6 +36,15 @@ class AdminService {
     }
     
     
+    /**
+     * Update admin properties service
+     * 
+     * @param int $id
+     * @param string $name
+     * @param string $email
+     * @param string $scope
+     * @return \Model\Entity\ResponseBootstrap
+     */
     public function updateAdmin(int $id, string $name, string $email, string $scope){
         
         // create response object
@@ -53,6 +67,15 @@ class AdminService {
     
     
     
+    /**
+     * Add admin service
+     * 
+     * @param string $name
+     * @param string $email
+     * @param string $scope
+     * @param string $password
+     * @return \Model\Entity\ResponseBootstrap
+     */
     public function addAdmin(string $name, string $email, string $scope, string $password){
         
         // create response object
@@ -74,7 +97,12 @@ class AdminService {
     }
     
     
-    
+    /**
+     * Delete admin service
+     * 
+     * @param int $id
+     * @return \Model\Entity\ResponseBootstrap
+     */
     public function deleteAdmin(int $id){
         
         // create response object

@@ -15,7 +15,12 @@ class StatisticController {
         $this->statisticService = $statisticService;
     }
     
-    
+    /**
+     * Get statistic controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function getStatistics(Request $request):ResponseBootstrap {
        
         return $this->statisticService->getStatistic();

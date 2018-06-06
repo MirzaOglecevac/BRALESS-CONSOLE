@@ -17,6 +17,13 @@ class VideoService {
     }
     
     
+    /**
+     * Get videos service
+     * 
+     * @param int $from
+     * @param int $limit
+     * @return ResponseBootstrap
+     */
     public function getVideos(int $from, int $limit):ResponseBootstrap {
         
         // create response object
@@ -32,6 +39,12 @@ class VideoService {
     }
     
     
+    /**
+     * Get search results service
+     * 
+     * @param string $term
+     * @return ResponseBootstrap
+     */
     public function getSearch(string $term):ResponseBootstrap {
         
         // create response object
@@ -47,6 +60,12 @@ class VideoService {
     }
     
     
+    /**
+     * Get video data service
+     * 
+     * @param int $id
+     * @return ResponseBootstrap
+     */
     public function getVideoData(int $id):ResponseBootstrap {
         
         // create response object
@@ -62,7 +81,22 @@ class VideoService {
     }
     
     
-    
+    /**
+     * Update video data service
+     * 
+     * @param int $id
+     * @param string $title
+     * @param string $description
+     * @param string $category
+     * @param string $thumbnail
+     * @param string $videoUrl
+     * @param string $downloadLink
+     * @param string $hd
+     * @param string $date
+     * @param int $views
+     * @param int $length
+     * @return ResponseBootstrap
+     */
     public function updateData(int $id, string $title, string $description, string $category, string $thumbnail, string $videoUrl, string $downloadLink, string $hd, string $date, int $views, int $length):ResponseBootstrap {
         
         // create response object
@@ -91,7 +125,21 @@ class VideoService {
     }
     
     
-    
+    /**
+     * Add video service
+     * 
+     * @param string $title
+     * @param string $description
+     * @param string $category
+     * @param string $thumbnail
+     * @param string $videoUrl
+     * @param string $downloadLink
+     * @param string $hd
+     * @param string $pornstarId
+     * @param int $views
+     * @param int $length
+     * @return ResponseBootstrap
+     */
     public function addData(string $title, string $description, string $category, string $thumbnail, string $videoUrl, string $downloadLink, string $hd, string $pornstarId, int $views, int $length):ResponseBootstrap {
         
         // create response object
@@ -119,7 +167,13 @@ class VideoService {
     }
     
     
-    
+    /**
+     * Edit tag service
+     * 
+     * @param int $id
+     * @param string $name
+     * @return ResponseBootstrap
+     */
     public function updateTag(int $id, string $name):ResponseBootstrap {
         
         // create response object
@@ -139,6 +193,16 @@ class VideoService {
     }
     
     
+    /**
+     * Edit video comment service
+     * 
+     * @param int $id
+     * @param string $content
+     * @param string $date
+     * @param int $usersId
+     * @param int $videosId
+     * @return ResponseBootstrap
+     */
     public function updateComment(int $id, string $content, string $date, int $usersId, int $videosId):ResponseBootstrap {
         
         // create response object
@@ -161,12 +225,38 @@ class VideoService {
     }
     
     
+    /**
+     * Delete video service
+     * 
+     * @param int $id
+     * @return ResponseBootstrap
+     */
     public function deleteVideoData(int $id):ResponseBootstrap {
         
         // create response object
         $response = new ResponseBootstrap();
         
         $data = $this->videoMapper->deleteVideoData($id);
+        
+        $response->setStatus($data['status']);
+        $response->setMessage($data['message']);
+        
+        return $response;
+    }
+    
+    
+    /**
+     * Delete video comment service
+     * 
+     * @param int $id
+     * @return ResponseBootstrap
+     */
+    public function deleteComment(int $id):ResponseBootstrap {
+        
+        // create response object
+        $response = new ResponseBootstrap();
+        
+        $data = $this->videoMapper->deleteComment($id);
         
         $response->setStatus($data['status']);
         $response->setMessage($data['message']);

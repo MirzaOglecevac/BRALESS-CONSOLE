@@ -16,6 +16,12 @@ class PornstarController {
     }
     
     
+    /**
+     * Get pornstars controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function getPornstars(Request $request):ResponseBootstrap {
         
         // take data from url
@@ -36,7 +42,12 @@ class PornstarController {
     }
     
     
-    
+    /**
+     * Edit pornstar data controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function putEdit(Request $request):ResponseBootstrap {
         
         // take parametar from the body
@@ -63,7 +74,12 @@ class PornstarController {
     }
     
     
-    
+    /**
+     * Delete pornstar controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function deleteRemove(Request $request):ResponseBootstrap {
         
         // take data from url
@@ -83,7 +99,12 @@ class PornstarController {
     }
     
     
-    
+    /**
+     * Get search results controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function getSearch(Request $request):ResponseBootstrap {
         
         // take data from url
@@ -103,6 +124,12 @@ class PornstarController {
     }
     
     
+    /**
+     * Add pornstar controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function postAdd(Request $request):ResponseBootstrap {
         
         // take parametar from the body
@@ -128,7 +155,12 @@ class PornstarController {
     }
     
     
-    
+    /**
+     * Get pornstar profile controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function getProfile(Request $request):ResponseBootstrap {
         
         // take data from url

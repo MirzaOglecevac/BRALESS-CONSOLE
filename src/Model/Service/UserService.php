@@ -14,6 +14,14 @@ class UserService {
         $this->userMapper = $userMapper;
     }
     
+    
+    /**
+     * Get users service
+     * 
+     * @param int $from
+     * @param int $limit
+     * @return ResponseBootstrap
+     */
     public function getUsers(int $from, int $limit):ResponseBootstrap {
         
         // create response object
@@ -29,6 +37,17 @@ class UserService {
     }
     
     
+    /**
+     * Edit user data service
+     * 
+     * @param int $id
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     * @param string $profileImage
+     * @param int $isPornstar
+     * @return \Model\Entity\ResponseBootstrap
+     */
     public function updateUser(int $id, string $name, string $email, string $password, string $profileImage, int $isPornstar){
         
         // create response object
@@ -52,7 +71,12 @@ class UserService {
     }
     
     
-    
+    /**
+     * Delete user service
+     * 
+     * @param int $id
+     * @return ResponseBootstrap
+     */
     public function deleteUsers(int $id):ResponseBootstrap {
         
         // create response object
@@ -67,7 +91,12 @@ class UserService {
     }
     
     
-    
+    /**
+     * Get search results service
+     * 
+     * @param string $term
+     * @return ResponseBootstrap
+     */
     public function searchUsers(string $term):ResponseBootstrap {
         
         // create response object
@@ -83,7 +112,16 @@ class UserService {
     }
     
     
-    
+    /**
+     * Add user service
+     * 
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     * @param string $profileImage
+     * @param int $isPornstar
+     * @return \Model\Entity\ResponseBootstrap
+     */
     public function addUser(string $name, string $email, string $password, string $profileImage, int $isPornstar){
         
         // create response object

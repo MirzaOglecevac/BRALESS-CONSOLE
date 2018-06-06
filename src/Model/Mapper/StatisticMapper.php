@@ -8,6 +8,12 @@ use Component\DataMapper;
 
 class StatisticMapper extends DataMapper {
     
+    
+    /**
+     * Get statistic mapper
+     * 
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function getStatistic(){
         
         try {
@@ -30,12 +36,12 @@ class StatisticMapper extends DataMapper {
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
+                    'status' => 304,
+                    'message' => 'Not modified.',
                     'data' => []
                 ];
             }

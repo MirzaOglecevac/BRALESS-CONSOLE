@@ -10,6 +10,11 @@ use Model\Entity\Admins;
 class AdminMapper extends DataMapper {
     
     
+    /**
+     * Get all admins mapper
+     * 
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function getAllAdmins(){
         
         try {
@@ -21,12 +26,12 @@ class AdminMapper extends DataMapper {
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
+                    'status' => 304,
+                    'message' => 'Not modified',
                     'data' => []
                 ];
             }
@@ -43,7 +48,12 @@ class AdminMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Update admin properties mapper
+     * 
+     * @param Admins $admin
+     * @return number[]|NULL[]|number[]|string[]
+     */
     public function updateAdmin(Admins $admin){
         
         try {
@@ -63,8 +73,8 @@ class AdminMapper extends DataMapper {
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.'
+                    'status' => 304,
+                    'message' => 'Not modified'
                 ];
             }
             
@@ -80,6 +90,12 @@ class AdminMapper extends DataMapper {
     
     
     
+    /**
+     * Add admin mapper
+     * 
+     * @param Admins $admin
+     * @return number[]|NULL[]|number[]|string[]
+     */
     public function addAdmin(Admins $admin){
         
         try {
@@ -99,8 +115,8 @@ class AdminMapper extends DataMapper {
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.'
+                    'status' => 304,
+                    'message' => 'Not modified'
                 ];
             }
             
@@ -115,7 +131,12 @@ class AdminMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Delete admin mapper
+     * 
+     * @param int $id
+     * @return number[]|NULL[]|number[]|string[]
+     */
     public function deleteAdmin(int $id){
         
         try {
@@ -132,8 +153,8 @@ class AdminMapper extends DataMapper {
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.'
+                    'status' => 304,
+                    'message' => 'Not modified.'
                 ];
             }
             

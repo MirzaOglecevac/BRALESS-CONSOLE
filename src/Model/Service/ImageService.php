@@ -15,6 +15,14 @@ class ImageService {
         $this->imageMapper = $imageMapper;
     }
     
+    
+    /**
+     * Get images service
+     * 
+     * @param int $from
+     * @param int $limit
+     * @return ResponseBootstrap
+     */
     public function getImages(int $from, int $limit):ResponseBootstrap {
         
         // create response object
@@ -30,6 +38,12 @@ class ImageService {
     }
     
     
+    /**
+     * Get search results service
+     * 
+     * @param string $term
+     * @return ResponseBootstrap
+     */
     public function getSearch(string $term):ResponseBootstrap {
         
         // create response object
@@ -45,6 +59,12 @@ class ImageService {
     }
     
     
+    /**
+     * Get specified image data service
+     * 
+     * @param int $id
+     * @return ResponseBootstrap
+     */
     public function getImageData(int $id):ResponseBootstrap {
         
         // create response object
@@ -60,7 +80,17 @@ class ImageService {
     }
     
     
-    
+    /**
+     * Update image data service
+     * 
+     * @param int $id
+     * @param string $title
+     * @param string $description
+     * @param string $thumbnail
+     * @param string $imageUrl
+     * @param string $date
+     * @return ResponseBootstrap
+     */
     public function updateData(int $id, string $title, string $description, string $thumbnail, string $imageUrl, string $date):ResponseBootstrap {
         
         // create response object
@@ -84,11 +114,21 @@ class ImageService {
     }
     
     
+    /**
+     * Add image service
+     * 
+     * @param string $title
+     * @param string $description
+     * @param string $thumbnail
+     * @param string $imageUrl
+     * @param string $pornstarId
+     * @return ResponseBootstrap
+     */
     public function addData(string $title, string $description, string $thumbnail, string $imageUrl, string $pornstarId):ResponseBootstrap {
         
         // create response object
         $response = new ResponseBootstrap();
-        
+
         // create entity and set its values
         $image = new Images();
         $image->setTitle($title);
@@ -106,7 +146,16 @@ class ImageService {
     }
     
     
-    
+    /**
+     * Update comment data service
+     * 
+     * @param int $id
+     * @param string $content
+     * @param string $date
+     * @param int $usersId
+     * @param int $imagesId
+     * @return ResponseBootstrap
+     */
     public function updateComment(int $id, string $content, string $date, int $usersId, int $imagesId):ResponseBootstrap {
         
         // create response object
@@ -129,12 +178,38 @@ class ImageService {
     }
     
     
+    /**
+     * Delete image service
+     * 
+     * @param int $id
+     * @return ResponseBootstrap
+     */
     public function deleteImageData(int $id):ResponseBootstrap {
         
         // create response object
         $response = new ResponseBootstrap();
         
-        $data = $this->imageMapper->deleteImageData($id);
+        $data = $this->imageMapper->deleteComment($id);
+        
+        $response->setStatus($data['status']);
+        $response->setMessage($data['message']);
+        
+        return $response;
+    }
+    
+    
+    /**
+     * Delete image comment service
+     * 
+     * @param int $id
+     * @return ResponseBootstrap
+     */
+    public function deleteComment(int $id):ResponseBootstrap {
+        
+        // create response object
+        $response = new ResponseBootstrap();
+        
+        $data = $this->imageMapper->deleteComment($id);
         
         $response->setStatus($data['status']);
         $response->setMessage($data['message']);

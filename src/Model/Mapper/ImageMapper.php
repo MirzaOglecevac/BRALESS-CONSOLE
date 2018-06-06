@@ -10,6 +10,14 @@ use Model\Entity\ImageComments;
 
 class ImageMapper extends DataMapper {
     
+    
+    /**
+     * Get images mapper
+     * 
+     * @param int $from
+     * @param int $limit
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function getImages(int $from, int $limit){
         
         try {
@@ -31,12 +39,12 @@ class ImageMapper extends DataMapper {
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
+                    'status' => 304,
+                    'message' => 'Couldnt collect data',
                     'data' => []
                 ];
             }
@@ -54,6 +62,12 @@ class ImageMapper extends DataMapper {
     
     
     
+    /**
+     * Get search results mapper
+     * 
+     * @param string $term
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function getSearch(string $term){
         
         try {
@@ -102,6 +116,12 @@ class ImageMapper extends DataMapper {
     
     
     
+    /**
+     * Get specified image data mapper
+     * 
+     * @param int $id
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function getImageData(int $id){
         
         try {
@@ -146,7 +166,7 @@ class ImageMapper extends DataMapper {
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
-                    'data' => $data
+                    'data' => ['data' => $data]
                 ];
             }else {
                 $result = [
@@ -169,11 +189,15 @@ class ImageMapper extends DataMapper {
     }
     
     
-    
+    /**
+     * Update image data mapper
+     * 
+     * @param Images $image
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function updateData(Images $image){
         
         try {
-            
             
             $sql = "UPDATE images SET
                         title = ?,
@@ -196,23 +220,20 @@ class ImageMapper extends DataMapper {
             if($success){
                 $result = [
                     'status' => 200,
-                    'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'message' => 'Success'
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
-                    'data' => []
+                    'status' => 304,
+                    'message' => 'Not modified'
                 ];
             }
             
         }catch(PDOException $e){
-           
+
             return [
                 'status' => 500,
-                'message' => $e->getMessage(),
-                'data' => []
+                'message' => $e->getMessage()
             ];
         }
         
@@ -221,11 +242,15 @@ class ImageMapper extends DataMapper {
     
     
     
-    
+    /**
+     * Add image mapper
+     * 
+     * @param Images $image
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function addData(Images $image){
         
         try {
-            
             
             $sql = "INSERT INTO images (title, description, thumbnail, image_link)
                                 VALUES (?, ?, ?, ?)";
@@ -279,9 +304,12 @@ class ImageMapper extends DataMapper {
     
     
     
-    
-    
-    
+    /**
+     * Update comment data mapper
+     * 
+     * @param ImageComments $comment
+     * @return number[]|array[]|NULL[]|number[]|string[]|array[]
+     */
     public function updateComment(ImageComments $comment){
         
         try {
@@ -305,14 +333,12 @@ class ImageMapper extends DataMapper {
             if($success){
                 $result = [
                     'status' => 200,
-                    'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'message' => 'Success'
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
-                    'data' => []
+                    'status' => 304,
+                    'message' => 'Not modified'
                 ];
             }
             
@@ -329,12 +355,17 @@ class ImageMapper extends DataMapper {
     }
     
     
+    /**
+     * Delete image mapper
+     * 
+     * @param int $id
+     * @return number[]|NULL[]|number[]|string[]
+     */
     public function deleteImageData(int $id){
         
         try {
             
             $sql = "DELETE FROM images WHERE id = ?";
-            
             $statement = $this->connection->prepare($sql);
             $success = $statement->execute([
                 $id
@@ -343,14 +374,12 @@ class ImageMapper extends DataMapper {
             if($success){
                 $result = [
                     'status' => 200,
-                    'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'message' => 'Success'
                 ];
             }else {
                 $result = [
-                    'status' => 500,
-                    'message' => 'Server error.',
-                    'data' => []
+                    'status' => 304,
+                    'message' => 'Not modified.'
                 ];
             }
             
@@ -358,8 +387,47 @@ class ImageMapper extends DataMapper {
             
             return [
                 'status' => 500,
-                'message' => $e->getMessage(),
-                'data' => []
+                'message' => $e->getMessage()
+            ];
+        }
+        
+        return $result;
+    }
+    
+    
+    /**
+     * Delete image comment mapper
+     * 
+     * @param int $id
+     * @return number[]|NULL[]|number[]|string[]
+     */
+    public function deleteComment(int $id){
+        
+        try {
+            
+            $sql = "DELETE FROM image_comments WHERE id = ?";
+            $statement = $this->connection->prepare($sql);
+            $success = $statement->execute([
+                $id
+            ]);
+            
+            if($success){
+                $result = [
+                    'status' => 200,
+                    'message' => 'Success'
+                ];
+            }else {
+                $result = [
+                    'status' => 304,
+                    'message' => 'Not modified.'
+                ];
+            }
+            
+        }catch(PDOException $e){
+            
+            return [
+                'status' => 500,
+                'message' => $e->getMessage()
             ];
         }
         

@@ -15,6 +15,13 @@ class ImageController {
         $this->imageService = $imageService;
     }
     
+    
+    /**
+     * Get images controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function getImages(Request $request):ResponseBootstrap {
         
         // take data from url
@@ -35,7 +42,12 @@ class ImageController {
     }
     
     
-    
+    /**
+     * Get search results controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function getSearch(Request $request):ResponseBootstrap {
         
         // take data from url
@@ -55,8 +67,14 @@ class ImageController {
     }
     
     
-    
+    /**
+     * Get specified image data controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function getData(Request $request):ResponseBootstrap {
+       
         
         // take data from url
         $id = $request->get('id');
@@ -75,7 +93,12 @@ class ImageController {
     }
     
     
-    
+    /**
+     * Update image data controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function putData(Request $request):ResponseBootstrap {
         
         // take parametar from the body
@@ -101,8 +124,14 @@ class ImageController {
     }
     
     
+    /**
+     * Add image controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function postData(Request $request):ResponseBootstrap {
-        
+       
         // take parametar from the body
         $data = json_decode($request->getContent(), true);
         $title = $data['title'];
@@ -126,7 +155,12 @@ class ImageController {
     }
     
     
-    
+    /**
+     * Update comment data controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function putComment(Request $request):ResponseBootstrap {
         
         // take parametar from the body
@@ -152,6 +186,12 @@ class ImageController {
     
     
     
+    /**
+     * Delete image controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */
     public function deleteRemove(Request $request):ResponseBootstrap {
         
         // take data from url
@@ -162,6 +202,31 @@ class ImageController {
         
         if(isset($id)){
             return $this->imageService->deleteImageData($id);
+        }else {
+            $response->setStatus(404);
+            $response->setMessage('Bad request.');
+        }
+        
+        return $response;
+    }
+    
+    
+    /**
+     * Delete image comment controller
+     * 
+     * @param Request $request
+     * @return ResponseBootstrap
+     */   
+    public function deleteComment(Request $request):ResponseBootstrap {
+        
+        // take data from url
+        $id = $request->get('id');
+        
+        // create response object
+        $response = new ResponseBootstrap();
+        
+        if(isset($id)){
+            return $this->imageService->deleteComment($id);
         }else {
             $response->setStatus(404);
             $response->setMessage('Bad request.');
