@@ -31,16 +31,11 @@ class TermsMapper extends DataMapper {
                     'status' => 200,
                     'message' => 'Success'
                 ];
-            }else {
-                $result = [
-                    'status' => 500,
-                    'message' => 'Server error.'
-                ];
             }
             
         }catch(PDOException $e){
             return [
-                'status' => 500,
+                'status' => 304,
                 'message' => $e->getMessage()
             ];
         }

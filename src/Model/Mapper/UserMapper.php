@@ -32,17 +32,11 @@ class UserMapper extends DataMapper {
                     'message' => 'Success',
                     'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
-            }else {
-                $result = [
-                    'status' => 304,
-                    'message' => 'Couldnt get data',
-                    'data' => []
-                ];
             }
             
         }catch(PDOException $e){
             return [
-                'status' => 500,
+                'status' => 204,
                 'message' => $e->getMessage(),
                 'data' => []
             ];
@@ -83,16 +77,11 @@ class UserMapper extends DataMapper {
                     'status' => 200,
                     'message' => 'Success'
                 ];
-            }else {
-                $result = [
-                    'status' => 304,
-                    'message' => 'Not modified.'
-                ];
             }
             
         }catch(PDOException $e){
             return [
-                'status' => 500,
+                'status' => 304,
                 'message' => $e->getMessage()
             ];
         }
@@ -121,16 +110,11 @@ class UserMapper extends DataMapper {
                     'status' => 200,
                     'message' => 'Success'
                 ];
-            }else {
-                $result = [
-                    'status' => 304,
-                    'message' => 'Not modified.'
-                ];
             }
             
         }catch(PDOException $e){
             return [
-                'status' => 500,
+                'status' => 304,
                 'message' => $e->getMessage()
             ];
         }
@@ -163,17 +147,11 @@ class UserMapper extends DataMapper {
                     'message' => 'Success',
                     'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
-            }else {
-                $result = [
-                    'status' => 304,
-                    'message' => 'Couldnt collect data.',
-                    'data' => []
-                ];
             }
             
         }catch(PDOException $e){
             return [
-                'status' => 500,
+                'status' => 204,
                 'message' => $e->getMessage(),
                 'data' => []
             ];
@@ -209,16 +187,11 @@ class UserMapper extends DataMapper {
                     'status' => 200,
                     'message' => 'Success'
                 ];
-            }else {
-                $result = [
-                    'status' => 304,
-                    'message' => 'Not modified.'
-                ];
             }
             
         }catch(PDOException $e){
             return [
-                'status' => 500,
+                'status' => 304,
                 'message' => $e->getMessage()
             ];
         }

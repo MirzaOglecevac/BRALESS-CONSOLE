@@ -28,17 +28,11 @@ class AdminMapper extends DataMapper {
                     'message' => 'Success',
                     'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
-            }else {
-                $result = [
-                    'status' => 304,
-                    'message' => 'Not modified',
-                    'data' => []
-                ];
             }
             
         }catch(PDOException $e){
             return [
-                'status' => 500,
+                'status' => 204,
                 'message' => $e->getMessage(),
                 'data' => []
             ];
@@ -71,16 +65,11 @@ class AdminMapper extends DataMapper {
                     'status' => 200,
                     'message' => 'Success'
                 ];
-            }else {
-                $result = [
-                    'status' => 304,
-                    'message' => 'Not modified'
-                ];
             }
             
         }catch(PDOException $e){
             return [
-                'status' => 500,
+                'status' => 304,
                 'message' => $e->getMessage()
             ];
         }
@@ -113,16 +102,11 @@ class AdminMapper extends DataMapper {
                     'status' => 200,
                     'message' => 'Success'
                 ];
-            }else {
-                $result = [
-                    'status' => 304,
-                    'message' => 'Not modified'
-                ];
             }
             
         }catch(PDOException $e){
             return [
-                'status' => 500,
+                'status' => 304,
                 'message' => $e->getMessage()
             ];
         }
@@ -151,16 +135,11 @@ class AdminMapper extends DataMapper {
                     'status' => 200,
                     'message' => 'Success'
                 ];
-            }else {
-                $result = [
-                    'status' => 304,
-                    'message' => 'Not modified.'
-                ];
             }
             
         }catch(PDOException $e){
             return [
-                'status' => 500,
+                'status' => 304,
                 'message' => $e->getMessage()
             ];
         }

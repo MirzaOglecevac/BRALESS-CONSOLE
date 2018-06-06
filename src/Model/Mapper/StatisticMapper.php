@@ -38,18 +38,12 @@ class StatisticMapper extends DataMapper {
                     'message' => 'Success',
                     'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
-            }else {
-                $result = [
-                    'status' => 304,
-                    'message' => 'Not modified.',
-                    'data' => []
-                ];
             }
             
         }catch(PDOException $e){
             die($e->getMessage());
             return [
-                'status' => 500,
+                'status' => 204,
                 'message' => $e->getMessage(),
                 'data' => []
             ];
