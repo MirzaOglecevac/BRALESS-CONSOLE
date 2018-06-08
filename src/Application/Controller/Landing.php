@@ -22,19 +22,20 @@ class Landing {
         // create response object
         $response = new ResponseBootstrap();
 
-        $html = file_get_contents('https://www.xvideos.com/new/1');
-        $xvideos_doc = new \DOMDocument();
-        libxml_use_internal_errors(TRUE);
         
-        if(!empty($html)){
+        for($i = 1; $i < 50; $i++){
+            $html = file_get_contents('https://www.xvideos.com/new/' . $i);
+            $xvideos_doc = new \DOMDocument();
+            libxml_use_internal_errors(TRUE);
             
-            return $this->scraperService->scrap($xvideos_doc);
-                
-        }else {
-            $response->setStatus(404);
-            $response->setMessage('No page found.');
+            if(!empty($html)){
+                $this->scraperService->scrap($html, $xvideos_doc);
+            }
         }
         
+        
+        $response->setStatus(200);
+        $response->setMessage('Finished');
         return $response;
     }
     
