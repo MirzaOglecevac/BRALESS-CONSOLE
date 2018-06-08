@@ -1,7 +1,6 @@
 <?php
 
 namespace Model\Mapper;
-
 use PDO;
 use PDOException;
 use Component\DataMapper;
@@ -20,6 +19,7 @@ class VideoMapper extends DataMapper {
      * @return number[]|array[]|NULL[]|number[]|string[]|array[]
      */
     public function getVideos(int $from, int $limit){
+        
         
         try {
             $sql = "SELECT 

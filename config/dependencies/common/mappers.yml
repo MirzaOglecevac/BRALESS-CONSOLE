@@ -5,6 +5,11 @@ services:
         autoconfigure: true
         public: false
 
+    Model\Mapper\ScraperMapper:
+        factory: Component\MapperFactory:create
+        arguments:
+            - 'Model\Mapper\ScraperMapper'
+
     Model\Mapper\AdminMapper:
         factory: Component\MapperFactory:create
         arguments:

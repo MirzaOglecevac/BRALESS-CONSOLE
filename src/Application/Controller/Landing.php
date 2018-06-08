@@ -2,32 +2,40 @@
 namespace Application\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Model\Entity\ResponseBootstrap;
+use Component\DataMapper;
+use PDO;
+use Model\Service\ScraperService;
 
-class Landing
-{
+
+class Landing {
+
+    private $scraperService;
     
-    public function __construct()
-    {
-        echo "in<br>";
+    public function __construct(ScraperService $scraperService){
+        $this->scraperService = $scraperService;
     }
+
     
     
-    /**
-     * Get Landing Page
-     *
-     * @param Request $request
-     * @return ResponseBootstrap
-     */
-    public function get(Request $request):ResponseBootstrap // TODO
-    {
-        //var_dump('pica');
-        echo "salcin<br>";
-        $responseKarinas = new ResponseBootstrap();
-        $responseKarinas->setStatus(200);
-        $responseKarinas->setMessage('Karinas');
-        $responseKarinas->setData(['karinas'=>['ad']]);
+    public function get(Request $request):ResponseBootstrap {
+      
+        // create response object
+        $response = new ResponseBootstrap();
+
+        $html = file_get_contents('https://www.xvideos.com/new/1');
+        $xvideos_doc = new \DOMDocument();
+        libxml_use_internal_errors(TRUE);
         
-        return $responseKarinas;
+        if(!empty($html)){
+            
+            return $this->scraperService->scrap($xvideos_doc);
+                
+        }else {
+            $response->setStatus(404);
+            $response->setMessage('No page found.');
+        }
+        
+        return $response;
     }
     
 }
