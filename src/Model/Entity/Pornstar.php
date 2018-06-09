@@ -9,11 +9,13 @@ class Pornstar {
     private $sex;
     private $age;
     private $about;
+    private $country;
+    private $defaultProfileViews;
+    private $defaultTotalVideoViews;
+    private $defaultSubscribers;
     private $bannerImage;
     private $profileImage;
     private $trusted;
-    
-    
     /**
      * @return mixed
      */
@@ -52,6 +54,38 @@ class Pornstar {
     public function getAbout()
     {
         return $this->about;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultProfileViews()
+    {
+        return $this->defaultProfileViews;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultTotalVideoViews()
+    {
+        return $this->defaultTotalVideoViews;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultSubscribers()
+    {
+        return $this->defaultSubscribers;
     }
 
     /**
@@ -119,6 +153,38 @@ class Pornstar {
     }
 
     /**
+     * @param mixed $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @param mixed $defaultProfileViews
+     */
+    public function setDefaultProfileViews($defaultProfileViews)
+    {
+        $this->defaultProfileViews = $defaultProfileViews;
+    }
+
+    /**
+     * @param mixed $defaultTotalVideoViews
+     */
+    public function setDefaultTotalVideoViews($defaultTotalVideoViews)
+    {
+        $this->defaultTotalVideoViews = $defaultTotalVideoViews;
+    }
+
+    /**
+     * @param mixed $defaultSubscribers
+     */
+    public function setDefaultSubscribers($defaultSubscribers)
+    {
+        $this->defaultSubscribers = $defaultSubscribers;
+    }
+
+    /**
      * @param mixed $bannerImage
      */
     public function setBannerImage($bannerImage)
@@ -142,6 +208,9 @@ class Pornstar {
         $this->trusted = $trusted;
     }
 
+    
+    
+   
     
     
     

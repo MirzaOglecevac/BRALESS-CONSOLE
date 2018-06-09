@@ -5,10 +5,11 @@ use PDO;
 use PDOException;
 use Component\DataMapper;
 use Model\Entity\Videos;
+use Model\Entity\Pornstar;
 
 class ScraperMapper extends DataMapper {
 
-    public function saveScrapedData(Videos $videos, Array $tags){
+    public function saveScrapedVideosData(Videos $videos, string $tags){
         
         try {
 
@@ -18,8 +19,8 @@ class ScraperMapper extends DataMapper {
             $dislikes = rand(0, ($videos->getViews()/25)); // var_dump($dislikes);
        
             // insert video data in videos table
-            $sql = "INSERT INTO videos (title, video_url, views, length, hd, default_likes, default_dislikes) 
-                                VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO videos (title, video_url, views, length, hd, thumbnail, default_likes, default_dislikes) 
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             $statement = $this->connection->prepare($sql);
             $statement->execute([
                 $videos->getTitle(),
@@ -27,6 +28,7 @@ class ScraperMapper extends DataMapper {
                 $videos->getViews(),
                 $videos->getLength(),
                 $videos->getHd(),
+                $videos->getThumbnail(),
                 $likes,
                 $dislikes
             ]);
@@ -36,13 +38,40 @@ class ScraperMapper extends DataMapper {
             // insert tags data in video_tags table
             $sql = "INSERT INTO video_tags (name, videos_id) 
                                 VALUES (?,?)";
-            for($i = 0; $i < count($tags); $i++){
-                $statement = $this->connection->prepare($sql);
-                $statement->execute([
-                    $tags[$i],
-                    $videoId
-                ]);
-            }      
+            $statement = $this->connection->prepare($sql);
+            $statement->execute([
+                $tags,
+                $videoId
+            ]);
+               
+            
+            
+        }catch(\PDOException $e){
+            die($e->getMessage());
+        }
+    }
+    
+    
+    
+    public function saveScrapedPornstarData(Pornstar $pornstar){
+        
+        try {
+            
+            // insert pornstar data into pornstars table
+            $sql = "INSERT INTO pornstars (name, sex, age, about, country, profile_image, default_total_video_views, default_profile_views, default_subscribers)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $statement = $this->connection->prepare($sql);
+            $statement->execute([
+                $pornstar->getName(),
+                $pornstar->getSex(),
+                $pornstar->getAge(),
+                $pornstar->getAbout(),
+                $pornstar->getCountry(),
+                $pornstar->getProfileImage(),
+                $pornstar->getDefaultTotalVideoViews(),
+                $pornstar->getDefaultProfileViews(),
+                $pornstar->getDefaultSubscribers()
+            ]);
             
             
         }catch(\PDOException $e){
