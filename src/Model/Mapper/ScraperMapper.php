@@ -9,7 +9,7 @@ use Model\Entity\Pornstar;
 
 class ScraperMapper extends DataMapper {
 
-    public function saveScrapedVideosData(Videos $videos, string $tags){
+    public function saveScrapedVideosData(Videos $videos, string $tags, $pornstarId){
         
         try {
 
@@ -43,11 +43,37 @@ class ScraperMapper extends DataMapper {
                 $tags,
                 $videoId
             ]);
-               
+            
+            
+            // insert comments in video_comments table
+            $sql = "INSERT INTO video_comments (users_id, content, videos_id)
+                                VALUES (?,?,?)";
+            $statement = $this->connection->prepare($sql);
+            $comments = $videos->getComments();
+            for($i = 0; $i < count($videos->getComments()); $i++){
+                $statement->execute([
+                    0,
+                    $comments[$i],
+                    $videoId
+                ]);
+            }
+            
+            
+            
+            // if pornstar id has value set video to the coresponding pornstar
+            if($pornstarId !== null){
+                $sql = "INSERT INTO pornstars_has_videos (pornstars_id, videos_id)
+                                VALUES (?,?)";
+                $statement = $this->connection->prepare($sql);
+                $statement->execute([
+                    $pornstarId,
+                    $videoId
+                ]);
+            }
             
             
         }catch(\PDOException $e){
-            die($e->getMessage());
+            echo $e->getMessage();
         }
     }
     
@@ -73,9 +99,10 @@ class ScraperMapper extends DataMapper {
                 $pornstar->getDefaultSubscribers()
             ]);
             
+            return $this->connection->lastInsertId();
             
         }catch(\PDOException $e){
-            die($e->getMessage());
+            echo $e->getMessage();
         }
     }
     

@@ -18,7 +18,7 @@ class ScraperService {
     
     
    
-    public function scrapVideos($html, \DOMDocument $xvideos_doc):ResponseBootstrap {
+    public function scrapVideos($html, \DOMDocument $xvideos_doc, $pornstarId):ResponseBootstrap {
         
         // create response object
         $response = new ResponseBootstrap();
@@ -52,6 +52,11 @@ class ScraperService {
             $end = strpos($videoUnsliced, 'frameborder');
             $video = substr($videoUnsliced, $start, $end - 15);
             
+            // get video id for fetching comments
+            $videoIdStart = strpos($videoUnsliced, 'embedframe');
+            $videoIdEnd = strpos($videoUnsliced, 'frameborder');
+            $videoId = substr($videoUnsliced, $videoIdStart+11, $videoIdEnd-50);
+            
             // get video views
             $xvideos_views = $path->query("//div[contains(@id, 'video-views-votes')]/span/span/strong");
             $views = $xvideos_views[0]->nodeValue;
@@ -74,18 +79,24 @@ class ScraperService {
             $hd = isset($xvideos_duration_hd[1]) ?  'true' : 'false';
 
             // get video tags
-            $xvideos_tags = $path->query("//div[contains(@class, 'video-metadata video-tags-list ordered-label-list cropped')]/ul/li[position()>1]");
+            $xvideos_tags = $path->query("//div[contains(@class, 'video-metadata video-tags-list ordered-label-list cropped')]/ul/li/a[contains(@href,'tags')]");
+           
             $tags = [];
-            
+          
             if($xvideos_tags->length > 0){
                 foreach($xvideos_tags as $row){
                     array_push($tags, $row->nodeValue);
                 }
             }
-            
-            // remove + as tag
-            array_pop($tags);
+     
             $tags = implode(', ', $tags);
+ 
+            
+            
+            // get video comments
+            $comments = $this->getVideoComments($linkTemp, $videoId);
+           // $comments = implode('<<***>>', $comments);
+      
             
             // call mapper to insert data into database
             if(isset($video) && isset($views) && isset($title) && isset($duration) && isset($hd) && isset($tags) && isset($thumbnail)){
@@ -97,8 +108,11 @@ class ScraperService {
                 $videos->setVideoUrl($video);
                 $videos->setViews($viewsNoCommas);
                 $videos->setThumbnail($thumbnail);
+                $videos->setComments($comments);
                 
-                $data = $this->scraperMapper->saveScrapedVideosData($videos, $tags);
+                $data = $this->scraperMapper->saveScrapedVideosData($videos, $tags, $pornstarId);
+                
+                die("END");
             }
             
         }
@@ -108,6 +122,26 @@ class ScraperService {
         $response->setMessage('Success');  
         
         return $response;
+  }
+  
+  
+  
+  public function getVideoComments($linkTemp, $videoId){
+      
+      $htmlCom = file_get_contents('https://www.xvideos.com/video-get-comments/' . $videoId . '/0/');
+      $xvideos_page = new \DOMDocument();
+      $xvideos_page->loadHTML($htmlCom);
+      libxml_clear_errors();
+      $path = new \DOMXPath($xvideos_page);
+      $data = json_decode($htmlCom, true);
+   
+        $comments = [];
+      foreach($data['comments'] as $comm){
+          array_push($comments, $comm['c']); 
+      }
+      
+      return $comments;
+ 
   }
        
   
@@ -125,29 +159,16 @@ class ScraperService {
       
       // find all profiles on the page
       $links = $xvideos_xpath->query("//div[contains(@class, 'thumb')]/a/@href");
-    
-      // get pornstar thumbnail
-      $xvideos_thumb = $xvideos_xpath->query("//div[@class='thumb']/a");
-      
-      $pornstarThumbnails = [];
-      
-//       foreach($xvideos_thumb as $img){
-//           $thumbnail = $img->nodeValue;
-//           $start = strpos($thumbnail, 'http');
-//           $end = strpos($thumbnail, '.jpg');
-//           $thumbnailLink = substr($thumbnail, $start, $end-48);
-//           array_push($pornstarThumbnails, $thumbnailLink);
-//       }
-      
-      
-      
-      $counter = 0;
 
+
+      // loop through each pornstar profile to collect its data
       foreach($links as $link){
           
           $linkTemp = $link->nodeValue;
           
-          $htmlPage = file_get_contents('https://www.xvideos.com' . $linkTemp . '/#_tabAboutMe');
+          $tabBasic = 'https://www.xvideos.com' . $linkTemp;
+          $url = $tabBasic . '/#_tabAboutMe';
+          $htmlPage = file_get_contents($url);
          
           $xvideos_page = new \DOMDocument();
           $xvideos_page->loadHTML($htmlPage);
@@ -157,7 +178,7 @@ class ScraperService {
           
           // get pornstar name
           $xvideos_name = $path->query("//span[@class='mobile-hide']/strong[@class='text-danger']");
-          $name = $xvideos_name[0]->nodeValue;
+          $name = $xvideos_name[0]->nodeValue == null ? null : $xvideos_name[0]->nodeValue;
           
           // get pornstar gender
           $xvideos_gender = $path->query("//p[@id='pinfo-sex']/span");
@@ -191,9 +212,10 @@ class ScraperService {
           // get pornstar profile picture
           $xvideos_profile_image = $path->query("//div[@class='profile-pic']/a/img/@src");
           $profileImage = $xvideos_profile_image[0]->nodeValue == NULL ? 'No profile image.' : $xvideos_profile_image[0]->nodeValue;
-          
+
           
           //  && isset($age) && isset($gender) && isset($country) && isset($profileViews) && isset($totalVideoViews) && isset($subscribers)
+          
           
           // call mapper to insert data into database
           if(isset($name)  && isset($profileImage)){
@@ -208,11 +230,35 @@ class ScraperService {
               $pornstar->setDefaultTotalVideoViews($totalVideoViews);
               $pornstar->setAbout($about);
               $pornstar->setProfileImage($profileImage);
-              // $pornstar->setProfileImage($pornstarThumbnails[$counter++]);
               
-              $data = $this->scraperMapper->saveScrapedPornstarData($pornstar);
-          }else {
-              $counter++;
+              
+              // insert pornstar data into database
+              $pornstarId = $this->scraperMapper->saveScrapedPornstarData($pornstar);
+              
+              // get pornstar related videos and insert into database
+              $htmlTabVideo = file_get_contents($tabBasic . '#tabVideos');
+              $xvideos_tab_video = new \DOMDocument();
+              libxml_use_internal_errors(TRUE);
+              
+              if(!empty($htmlTabVideo)){
+                  $this->scrapVideos($htmlTabVideo, $xvideos_tab_video, $pornstarId);
+              }
+              
+              
+              // get pornstar images and insert into database
+//               $htmlTabImage = file_get_contents($tabBasic . '#_tabPhotos');
+//               $xvideos_tab_image = new \DOMDocument();
+//               libxml_use_internal_errors(TRUE);
+              
+//               // make pornstar name with dashes
+//               $adjustedName = $this->adjustPornname($name);
+//               //die('j '. $adjustedName);
+              
+//               if(!empty($htmlTabImage)){
+//                   $this->scrapImages($htmlTabImage, $xvideos_tab_image, null, $adjustedName);
+//               }
+              
+  
           }
           
       }
@@ -224,6 +270,64 @@ class ScraperService {
       return $response;
   }
   
+  
+  
+  
+  
+  
+  
+//   public function scrapImages($html, \DOMDocument $xvideos_doc, $pornstarId, $adjustedName):ResponseBootstrap {
+
+//       // create response object
+//       $response = new ResponseBootstrap();
+      
+//       $xvideos_doc->loadHTML($html);
+//       libxml_clear_errors();
+      
+//       $xvideos_xpath = new \DOMXPath($xvideos_doc);
+      
+//       $links = $xvideos_xpath->query("//div[contains(@class, 'thumb')]/a/@href");
+      
+      
+//       //$images = $xvideos_xpath->query("//img/@src");
+
+//       $images = $xvideos_xpath->query("//a[@class = 'embed-responsive-item viewer-active']");
+
+//       foreach($images as $img){
+          
+//           echo $img->nodeValue . "<br/>";
+          
+//       }
+      
+//       die("end");
+      
+//       // return response
+//       $response->setStatus(200);
+//       $response->setMessage('Success');
+      
+//       return $response;
+//   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+ 
+//   public function adjustPornname($string){
+//       //Lower case everything
+//       $string = strtolower($string);
+//       //Make alphanumeric (removes all other characters)
+//       $string = preg_replace("/[^a-z0-9_\s-]/", "", $string);
+//       //Clean up multiple dashes or whitespaces
+//       $string = preg_replace("/[\s-]+/", " ", $string);
+//       //Convert whitespaces and underscore to dash
+//       $string = preg_replace("/[\s_]/", "-", $string);
+//       return $string;
+//   }
         
 }
 

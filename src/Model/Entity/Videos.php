@@ -16,11 +16,27 @@ class Videos {
     private $date;
     private $hd;
     private $pornstarId;
+    private $comments;
     
     
     
     
-    
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+    }
+
     /**
      * @return mixed
      */

@@ -22,8 +22,9 @@ class Landing {
         // create response object
         $response = new ResponseBootstrap();
         
-        // $this->scrapVideos();
-        $this->scrapPornstarProfiles();
+        
+         $this->scrapVideos();
+       // $this->scrapPornstarProfiles();
         
         $response->setStatus(200);
         $response->setMessage('Finished');
@@ -33,13 +34,13 @@ class Landing {
     
     public function scrapVideos(){
         
-        for($i = 1; $i < 2; $i++){
+        for($i = 20; $i < 100; $i++){
             $html = file_get_contents('https://www.xvideos.com/new/' . $i);
             $xvideos_doc = new \DOMDocument();
             libxml_use_internal_errors(TRUE);
             
             if(!empty($html)){
-                $this->scraperService->scrapVideos($html, $xvideos_doc);
+                $this->scraperService->scrapVideos($html, $xvideos_doc, null);
             }
         }
         
@@ -48,15 +49,15 @@ class Landing {
     
     public function scrapPornstarProfiles(){
     
-        for($i = 1; $i < 30; $i++){
-            $html = file_get_contents('https://www.xvideos.com/pornstars-index/' . $i);
+        //for($i = 1; $i < 2; $i++){
+            $html = file_get_contents('https://www.xvideos.com/pornstars-index/'); // . $i
             $xvideos_doc = new \DOMDocument();
             libxml_use_internal_errors(TRUE);
             
             if(!empty($html)){
                 $this->scraperService->scrapPornstars($html, $xvideos_doc);
             }
-        }
+        //}
     }
     
     
