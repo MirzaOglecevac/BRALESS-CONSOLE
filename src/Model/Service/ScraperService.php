@@ -51,6 +51,7 @@ class ScraperService {
             $start = strpos($videoUnsliced, 'https://www.xvideos.com/embedframe');
             $end = strpos($videoUnsliced, 'frameborder');
             $video = substr($videoUnsliced, $start, $end - 15);
+        
             
             // get video id for fetching comments
             $videoIdStart = strpos($videoUnsliced, 'embedframe');
@@ -91,12 +92,10 @@ class ScraperService {
      
             $tags = implode(', ', $tags);
  
-            
-            
+
             // get video comments
             $comments = $this->getVideoComments($linkTemp, $videoId);
-           // $comments = implode('<<***>>', $comments);
-      
+
             
             // call mapper to insert data into database
             if(isset($video) && isset($views) && isset($title) && isset($duration) && isset($hd) && isset($tags) && isset($thumbnail)){
@@ -108,11 +107,12 @@ class ScraperService {
                 $videos->setVideoUrl($video);
                 $videos->setViews($viewsNoCommas);
                 $videos->setThumbnail($thumbnail);
-                $videos->setComments($comments);
-                
+                if($comments !== []){
+                    $videos->setComments($comments);
+                }
+    
                 $data = $this->scraperMapper->saveScrapedVideosData($videos, $tags, $pornstarId);
-                
-                die("END");
+              
             }
             
         }
@@ -127,7 +127,7 @@ class ScraperService {
   
   
   public function getVideoComments($linkTemp, $videoId){
-      
+  
       $htmlCom = file_get_contents('https://www.xvideos.com/video-get-comments/' . $videoId . '/0/');
       $xvideos_page = new \DOMDocument();
       $xvideos_page->loadHTML($htmlCom);
@@ -135,12 +135,18 @@ class ScraperService {
       $path = new \DOMXPath($xvideos_page);
       $data = json_decode($htmlCom, true);
    
-        $comments = [];
-      foreach($data['comments'] as $comm){
-          array_push($comments, $comm['c']); 
-      }
+      $comments = [];
       
-      return $comments;
+      if(count($data) > 0){
+          foreach($data['comments'] as $comm){
+              array_push($comments, $comm['c']);
+          }
+          
+          return $comments;
+      }else {
+          var_dump('NEMA KOMENTARA' . print_r($data));
+          return [];
+      }
  
   }
        
@@ -183,8 +189,7 @@ class ScraperService {
           // get pornstar gender
           $xvideos_gender = $path->query("//p[@id='pinfo-sex']/span");
           $gender = $xvideos_gender[0]->nodeValue;
-          
-          
+        
           // get pornstar age
           $xvideos_age = $path->query("//p[@id='pinfo-age']/span");
           $age = (int)$xvideos_age[0]->nodeValue;
@@ -208,11 +213,19 @@ class ScraperService {
           // get pornstar about
           $xvideos_about = $path->query("//p[@id='pinfo-aboutme']");
           $about = $xvideos_about[0]->nodeValue == NULL ? 'About me...' : $xvideos_about[0]->nodeValue;
+          if(strpos($about, 'Show more')){
+              $about = str_replace('Show more', '', $about);
+          }
+        
           
           // get pornstar profile picture
           $xvideos_profile_image = $path->query("//div[@class='profile-pic']/a/img/@src");
           $profileImage = $xvideos_profile_image[0]->nodeValue == NULL ? 'No profile image.' : $xvideos_profile_image[0]->nodeValue;
 
+          // get pornstar banner picture
+          $xvideos_banner_image = $path->query("//div[@class='has-banner']/div/a/img/@src");
+          $bannerImage = $xvideos_banner_image[0]->nodeValue == NULL ? 'No banner image.' : $xvideos_banner_image[0]->nodeValue;
+         
           
           //  && isset($age) && isset($gender) && isset($country) && isset($profileViews) && isset($totalVideoViews) && isset($subscribers)
           
@@ -230,6 +243,7 @@ class ScraperService {
               $pornstar->setDefaultTotalVideoViews($totalVideoViews);
               $pornstar->setAbout($about);
               $pornstar->setProfileImage($profileImage);
+              $pornstar->setBannerImage($bannerImage);
               
               
               // insert pornstar data into database

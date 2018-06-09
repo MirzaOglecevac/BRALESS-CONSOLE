@@ -59,12 +59,16 @@ class PornstarController {
         $about = $data['about'];
         $profileImage = $data['profile_image'];
         $bannerImage = $data['banner_image'];
+        $country = $data['country'];
+        $totalVideoViews = $data['total_video_views'];
+        $totalProfileViews = $data['tota_profile_views'];
+        $subscribers = $data['subscribers'];
         
         // create response object
         $response = new ResponseBootstrap();
         
         if(isset($id)){
-            return $this->pornstarService->updatePornstar($id, $name, $sex, $age, $about, $profileImage, $bannerImage);
+            return $this->pornstarService->updatePornstar($id, $name, $sex, $age, $about, $profileImage, $bannerImage, $country, $totalVideoViews, $totalProfileViews, $subscribers);
         }else {
             $response->setStatus(404);
             $response->setMessage('Bad request.');

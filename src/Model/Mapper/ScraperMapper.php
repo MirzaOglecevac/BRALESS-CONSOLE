@@ -45,20 +45,23 @@ class ScraperMapper extends DataMapper {
             ]);
             
             
-            // insert comments in video_comments table
-            $sql = "INSERT INTO video_comments (users_id, content, videos_id)
-                                VALUES (?,?,?)";
-            $statement = $this->connection->prepare($sql);
+            // insert comments in video_comments table if they exist for the current video
             $comments = $videos->getComments();
-            for($i = 0; $i < count($videos->getComments()); $i++){
-                $statement->execute([
-                    0,
-                    $comments[$i],
-                    $videoId
-                ]);
+            if(isset($comments)){
+                $sql = "INSERT INTO video_comments (users_id, content, videos_id)
+                                VALUES (?,?,?)";
+                $statement = $this->connection->prepare($sql);
+                
+                for($i = 0; $i < count($videos->getComments()); $i++){
+                    $statement->execute([
+                        0,
+                        $comments[$i],
+                        $videoId
+                    ]);
+                }
             }
             
-            
+     
             
             // if pornstar id has value set video to the coresponding pornstar
             if($pornstarId !== null){
@@ -84,8 +87,8 @@ class ScraperMapper extends DataMapper {
         try {
             
             // insert pornstar data into pornstars table
-            $sql = "INSERT INTO pornstars (name, sex, age, about, country, profile_image, default_total_video_views, default_profile_views, default_subscribers)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO pornstars (name, sex, age, about, country, profile_image, banner_image, default_total_video_views, default_profile_views, default_subscribers)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $statement = $this->connection->prepare($sql);
             $statement->execute([
                 $pornstar->getName(),
@@ -94,6 +97,7 @@ class ScraperMapper extends DataMapper {
                 $pornstar->getAbout(),
                 $pornstar->getCountry(),
                 $pornstar->getProfileImage(),
+                $pornstar->getBannerImage(),
                 $pornstar->getDefaultTotalVideoViews(),
                 $pornstar->getDefaultProfileViews(),
                 $pornstar->getDefaultSubscribers()

@@ -65,7 +65,11 @@ class PornstarMapper extends DataMapper {
                         age = ?,
                         profile_image = ?,
                         banner_image = ?,
-                        about = ?
+                        about = ?,
+                        country = ?,
+                        default_total_video_views = ?,
+                        default_profile_views = ?,
+                        default_subscriebers = ?
                     WHERE id = ?";
             $statement = $this->connection->prepare($sql);
             $success = $statement->execute([
@@ -75,6 +79,10 @@ class PornstarMapper extends DataMapper {
                 $pornstar->getProfileImage(),
                 $pornstar->getBannerImage(),
                 $pornstar->getAbout(),
+                $pornstar->getCountry(),
+                $pornstar->getDefaultTotalVideoViews(),
+                $pornstar->getDefaultProfileViews(),
+                $pornstar->getDefaultSubscribers(),
                 $pornstar->getId()
             ]);
             
