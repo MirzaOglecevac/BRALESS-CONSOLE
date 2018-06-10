@@ -2,6 +2,8 @@
 
 namespace Model\Service;
 
+ini_set('max_execution_time', 3000);
+
 use Model\Entity\ResponseBootstrap;
 use Symfony\Component\HttpFoundation\Request;
 use Model\Entity\Videos;
@@ -77,7 +79,19 @@ class ScraperService {
             // get video duration and if is HD or not
             $xvideos_duration_hd = $path->query("//h2[contains(@class, 'page-title')]/span");
             $duration = $xvideos_duration_hd[0]->nodeValue;
+            
+            if(strpos($duration, 'h') !== false){
+                $duration = str_replace('h', '', $duration);
+                $duration = str_replace('min', '', $duration);
+                $duration = ((int)$duration[0] * 60) + (int)substr($duration, 2);
+                
+            }else {
+                $duration = (int)$duration;
+            }
+
             $hd = isset($xvideos_duration_hd[1]) ?  'true' : 'false';
+            
+            echo $duration . '<br/>';
 
             // get video tags
             $xvideos_tags = $path->query("//div[contains(@class, 'video-metadata video-tags-list ordered-label-list cropped')]/ul/li/a[contains(@href,'tags')]");
@@ -144,7 +158,6 @@ class ScraperService {
           
           return $comments;
       }else {
-          var_dump('NEMA KOMENTARA' . print_r($data));
           return [];
       }
  
@@ -220,11 +233,11 @@ class ScraperService {
           
           // get pornstar profile picture
           $xvideos_profile_image = $path->query("//div[@class='profile-pic']/a/img/@src");
-          $profileImage = $xvideos_profile_image[0]->nodeValue == NULL ? 'No profile image.' : $xvideos_profile_image[0]->nodeValue;
+          $profileImage = $xvideos_profile_image[0]->nodeValue == NULL ? NULL : $xvideos_profile_image[0]->nodeValue;
 
           // get pornstar banner picture
           $xvideos_banner_image = $path->query("//div[@class='has-banner']/div/a/img/@src");
-          $bannerImage = $xvideos_banner_image[0]->nodeValue == NULL ? 'No banner image.' : $xvideos_banner_image[0]->nodeValue;
+          $bannerImage = $xvideos_banner_image[0]->nodeValue == NULL ? NULL : $xvideos_banner_image[0]->nodeValue;
          
           
           //  && isset($age) && isset($gender) && isset($country) && isset($profileViews) && isset($totalVideoViews) && isset($subscribers)
@@ -246,31 +259,40 @@ class ScraperService {
               $pornstar->setBannerImage($bannerImage);
               
               
+//               // insert pornstar data into database
+//               $pornstarId = $this->scraperMapper->saveScrapedPornstarData($pornstar);
+              
+//               // get pornstar related videos and insert into database
+//               $htmlTabVideo = file_get_contents($tabBasic . '#tabVideos');
+//               $xvideos_tab_video = new \DOMDocument();
+//               libxml_use_internal_errors(TRUE);
+              
+//               if(!empty($htmlTabVideo)){
+//                   $this->scrapVideos($htmlTabVideo, $xvideos_tab_video, $pornstarId);
+//               }
+              
+              
               // insert pornstar data into database
               $pornstarId = $this->scraperMapper->saveScrapedPornstarData($pornstar);
               
-              // get pornstar related videos and insert into database
-              $htmlTabVideo = file_get_contents($tabBasic . '#tabVideos');
-              $xvideos_tab_video = new \DOMDocument();
-              libxml_use_internal_errors(TRUE);
               
-              if(!empty($htmlTabVideo)){
-                  $this->scrapVideos($htmlTabVideo, $xvideos_tab_video, $pornstarId);
+              $name = str_replace(' ', '+', $name);
+              echo '<br/>' . $name . '<br/>';
+              
+              // get pornstar related videos and insert into database
+              
+              for($i = 0; $i < 5; $i++){
+                  $htmlSearchVideo = file_get_contents('https://www.xvideos.com/?k=' . $name . '&p=' . $i);
+                  echo '<br/>?k=' . $name . '&p=' . $i  . '<br/>';
+                  $xvideos_search_video = new \DOMDocument();
+                  libxml_use_internal_errors(TRUE);
+                  
+                  if(!empty($htmlSearchVideo)){
+                      $this->scrapSearchVideos($htmlSearchVideo, $xvideos_search_video, $pornstarId);
+                  }
               }
               
-              
-              // get pornstar images and insert into database
-//               $htmlTabImage = file_get_contents($tabBasic . '#_tabPhotos');
-//               $xvideos_tab_image = new \DOMDocument();
-//               libxml_use_internal_errors(TRUE);
-              
-//               // make pornstar name with dashes
-//               $adjustedName = $this->adjustPornname($name);
-//               //die('j '. $adjustedName);
-              
-//               if(!empty($htmlTabImage)){
-//                   $this->scrapImages($htmlTabImage, $xvideos_tab_image, null, $adjustedName);
-//               }
+             
               
   
           }
@@ -287,40 +309,122 @@ class ScraperService {
   
   
   
-  
-  
-  
-//   public function scrapImages($html, \DOMDocument $xvideos_doc, $pornstarId, $adjustedName):ResponseBootstrap {
-
-//       // create response object
-//       $response = new ResponseBootstrap();
+  public function scrapSearchVideos($html, \DOMDocument $xvideos_doc, $pornstarId):ResponseBootstrap {
       
-//       $xvideos_doc->loadHTML($html);
-//       libxml_clear_errors();
+      // create response object
+      $response = new ResponseBootstrap();
       
-//       $xvideos_xpath = new \DOMXPath($xvideos_doc);
+      $xvideos_doc->loadHTML($html);
+      libxml_clear_errors();
       
-//       $links = $xvideos_xpath->query("//div[contains(@class, 'thumb')]/a/@href");
+      $xvideos_xpath = new \DOMXPath($xvideos_doc);
       
+      $links = $xvideos_xpath->query("//div[contains(@class, 'thumb')]/a/@href");
       
-//       //$images = $xvideos_xpath->query("//img/@src");
-
-//       $images = $xvideos_xpath->query("//a[@class = 'embed-responsive-item viewer-active']");
-
-//       foreach($images as $img){
+      $counter = 0;
+      
+      foreach($links as $link){
           
-//           echo $img->nodeValue . "<br/>";
+          $linkTemp = $link->nodeValue;
           
-//       }
+          $htmlPage = file_get_contents('https://www.xvideos.com' . $linkTemp);
+          $xvideos_page = new \DOMDocument();
+          $xvideos_page->loadHTML($htmlPage);
+          libxml_clear_errors();
+          $path = new \DOMXPath($xvideos_page);
+          
+          
+          // get video link
+          $xvideos_video = $path->query("//div[contains(@class, 'tabs')]/div[contains(@id, 'tabShareAndEmbed')]/input/@value");
+          $videoUnsliced = $xvideos_video[0]->nodeValue;
+          
+          // take only link data from the text value
+          $start = strpos($videoUnsliced, 'https://www.xvideos.com/embedframe');
+          $end = strpos($videoUnsliced, 'frameborder');
+          $video = substr($videoUnsliced, $start, $end - 15);
+          
+          
+          // get video id for fetching comments
+          $videoIdStart = strpos($videoUnsliced, 'embedframe');
+          $videoIdEnd = strpos($videoUnsliced, 'frameborder');
+          $videoId = substr($videoUnsliced, $videoIdStart+11, $videoIdEnd-50);
+          
+          // get video views
+          $xvideos_views = $path->query("//div[contains(@id, 'video-views-votes')]/span/span/strong");
+          $views = $xvideos_views[0]->nodeValue;
+          $viewsNoCommas = (int)str_replace(',', '', $views);
+          
+          // get video thumbnail
+          $xvideos_thumb = $path->query("//img/@src");
+          
+          foreach($xvideos_thumb as $img){
+              $thumbnail = $img->nodeValue;
+          }
+          
+          //get video title
+          $xvideos_title = $path->query("//h2[contains(@class, 'page-title')]");
+          $title = $xvideos_title[0]->firstChild->nodeValue;
+          
+          // get video duration and if is HD or not
+          $xvideos_duration_hd = $path->query("//h2[contains(@class, 'page-title')]/span");
+          $duration = $xvideos_duration_hd[0]->nodeValue;
+          
+          if(strpos($duration, 'h') !== false){
+              $duration = str_replace('h', '', $duration);
+              $duration = str_replace('min', '', $duration);
+              $duration = ((int)$duration[0] * 60) + (int)substr($duration, 2);
+              
+          }else {
+              $duration = (int)$duration;
+          }
+          
+          
+          $hd = isset($xvideos_duration_hd[1]) ?  'true' : 'false';
+          
+          // get video tags
+          $xvideos_tags = $path->query("//div[contains(@class, 'video-metadata video-tags-list ordered-label-list cropped')]/ul/li/a[contains(@href,'tags')]");
+          
+          $tags = [];
+          
+          if($xvideos_tags->length > 0){
+              foreach($xvideos_tags as $row){
+                  array_push($tags, $row->nodeValue);
+              }
+          }
+          
+          $tags = implode(', ', $tags);
+          
+          
+          // get video comments
+          $comments = $this->getVideoComments($linkTemp, $videoId);
+          
+          
+          // call mapper to insert data into database
+          if(isset($video) && isset($views) && isset($title) && isset($duration) && isset($hd) && isset($tags) && isset($thumbnail)){
+              // create videos entity and set its values
+              $videos = new Videos();
+              $videos->setTitle($title);
+              $videos->setLength($duration);
+              $videos->setHd($hd);
+              $videos->setVideoUrl($video);
+              $videos->setViews($viewsNoCommas);
+              $videos->setThumbnail($thumbnail);
+              if($comments !== []){
+                  $videos->setComments($comments);
+              }
+              
+              $data = $this->scraperMapper->saveScrapedVideosData($videos, $tags, $pornstarId);
+              
+          }
+          
+      }
       
-//       die("end");
+      // return response
+      $response->setStatus(200);
+      $response->setMessage('Success');
       
-//       // return response
-//       $response->setStatus(200);
-//       $response->setMessage('Success');
-      
-//       return $response;
-//   }
+      return $response;
+  }
   
   
   
