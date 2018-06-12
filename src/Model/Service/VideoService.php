@@ -81,23 +81,21 @@ class VideoService {
     }
     
     
-    /**
-     * Update video data service
-     * 
-     * @param int $id
-     * @param string $title
-     * @param string $description
-     * @param string $category
-     * @param string $thumbnail
-     * @param string $videoUrl
-     * @param string $downloadLink
-     * @param string $hd
-     * @param string $date
-     * @param int $views
-     * @param int $length
-     * @return ResponseBootstrap
-     */
-    public function updateData(int $id, string $title, string $description, string $category, string $thumbnail, string $videoUrl, string $downloadLink, string $hd, string $date, int $views, int $length):ResponseBootstrap {
+   /**
+    * Edit video servcie
+    * 
+    * @param int $id
+    * @param string $title
+    * @param string $thumbnail
+    * @param string $videoUrl
+    * @param string $hd
+    * @param string $date
+    * @param int $views
+    * @param int $length
+    * @param string $tags
+    * @return ResponseBootstrap
+    */
+    public function updateData(int $id, string $title, string $thumbnail, string $videoUrl, string $hd, string $date, int $views, int $length, string $tags):ResponseBootstrap {
         
         // create response object
         $response = new ResponseBootstrap();
@@ -106,15 +104,13 @@ class VideoService {
         $video = new Videos();
         $video->setId($id);
         $video->setTitle($title);
-        $video->setCategory($category);
-        $video->setDescription($description);
         $video->setThumbnail($thumbnail);
         $video->setVideoUrl($videoUrl);
-        $video->setDownloadLink($downloadLink);
         $video->setHd($hd);
         $video->setDate($date);
         $video->setViews($views);
         $video->setLength($length);
+        $video->setTags($tags);
         
         $data = $this->videoMapper->updateData($video);
         

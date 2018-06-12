@@ -103,21 +103,22 @@ class VideoController {
         $data = json_decode($request->getContent(), true);
         $id = $data['id'];
         $title = $data['title'];
-        $description = $data['description'];
-        $category = $data['category'];
+        //$description = $data['description'];
+        //$category = $data['category'];
         $thumbnail = $data['thumbnail'];
         $videoUrl = $data['video_url'];
-        $downloadLink = $data['download_link'];
+        //$downloadLink = $data['download_link'];
         $hd = $data['hd'];
         $date = $data['date'];
         $views = $data['views'];
         $length = $data['length'];
+        $tags = $data['tags'];
      
         // create response object
         $response = new ResponseBootstrap();
         
-        if(isset($id) && isset($title) && isset($description) && isset($category) && isset($thumbnail) && isset($videoUrl) && isset($downloadLink) && isset($hd) && isset($date) && isset($views) && isset($length)){
-            return $this->videoService->updateData($id, $title, $description, $category, $thumbnail, $videoUrl, $downloadLink, $hd, $date, $views, $length);
+        if(isset($id) && isset($title) && isset($thumbnail) && isset($videoUrl) && isset($hd) && isset($date) && isset($views) && isset($length)){
+            return $this->videoService->updateData($id, $title, $thumbnail, $videoUrl, $hd, $date, $views, $length, $tags);
         }else {
             $response->setStatus(404);
             $response->setMessage('Bad request.');

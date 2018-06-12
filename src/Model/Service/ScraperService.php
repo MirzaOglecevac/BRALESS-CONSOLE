@@ -188,6 +188,7 @@ class ScraperService {
           $tabBasic = 'https://www.xvideos.com' . $linkTemp;
           $url = $tabBasic . '/#_tabAboutMe';
           $htmlPage = file_get_contents($url);
+          
          
           $xvideos_page = new \DOMDocument();
           $xvideos_page->loadHTML($htmlPage);
@@ -198,6 +199,8 @@ class ScraperService {
           // get pornstar name
           $xvideos_name = $path->query("//span[@class='mobile-hide']/strong[@class='text-danger']");
           $name = $xvideos_name[0]->nodeValue == null ? null : $xvideos_name[0]->nodeValue;
+          
+          
           
           // get pornstar gender
           $xvideos_gender = $path->query("//p[@id='pinfo-sex']/span");
@@ -239,12 +242,10 @@ class ScraperService {
           $xvideos_banner_image = $path->query("//div[@class='has-banner']/div/a/img/@src");
           $bannerImage = $xvideos_banner_image[0]->nodeValue == NULL ? NULL : $xvideos_banner_image[0]->nodeValue;
          
-          
-          //  && isset($age) && isset($gender) && isset($country) && isset($profileViews) && isset($totalVideoViews) && isset($subscribers)
-          
+         
           
           // call mapper to insert data into database
-          if(isset($name)  && isset($profileImage)){
+          if(isset($name)){
               // create videos entity and set its values
               $pornstar = new Pornstar();
               $pornstar->setName($name);
@@ -257,27 +258,14 @@ class ScraperService {
               $pornstar->setAbout($about);
               $pornstar->setProfileImage($profileImage);
               $pornstar->setBannerImage($bannerImage);
-              
-              
-//               // insert pornstar data into database
-//               $pornstarId = $this->scraperMapper->saveScrapedPornstarData($pornstar);
-              
-//               // get pornstar related videos and insert into database
-//               $htmlTabVideo = file_get_contents($tabBasic . '#tabVideos');
-//               $xvideos_tab_video = new \DOMDocument();
-//               libxml_use_internal_errors(TRUE);
-              
-//               if(!empty($htmlTabVideo)){
-//                   $this->scrapVideos($htmlTabVideo, $xvideos_tab_video, $pornstarId);
-//               }
-              
+        
+
               
               // insert pornstar data into database
               $pornstarId = $this->scraperMapper->saveScrapedPornstarData($pornstar);
               
               
               $name = str_replace(' ', '+', $name);
-              echo '<br/>' . $name . '<br/>';
               
               // get pornstar related videos and insert into database
               
@@ -291,9 +279,7 @@ class ScraperService {
                       $this->scrapSearchVideos($htmlSearchVideo, $xvideos_search_video, $pornstarId);
                   }
               }
-              
-             
-              
+  
   
           }
           

@@ -23,14 +23,21 @@ class VideoMapper extends DataMapper {
         
         try {
             $sql = "SELECT 
-                        vid.*, 
-                        COUNT(DISTINCT lik.id) AS likes ,
-                        COUNT(DISTINCT dis.id) AS dislikes
+                         vid.id,
+                            vid.title,
+                            vid.video_url,
+                            vid.thumbnail,
+                            vid.date,
+                            vid.views,
+                            vid.length AS duration,
+                            vid.hd,
+                            (COUNT(DISTINCT lik.id) + vid.default_likes) AS likes,
+                            (COUNT(DISTINCT dis.id) + vid.default_dislikes) AS dislikes
                     FROM videos AS vid 
                     LEFT JOIN video_likes AS lik ON vid.id = lik.videos_id
                     LEFT JOIN video_dislikes AS dis ON vid.id = dis.videos_id
                     GROUP BY vid.id 
-                    ORDER BY COUNT(lik.videos_id) DESC LIMIT :from,:limit";
+                    ORDER BY (COUNT(DISTINCT lik.id) + vid.default_likes) DESC LIMIT :from,:limit";
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(':from', $from, PDO::PARAM_INT);
             $statement->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -66,19 +73,25 @@ class VideoMapper extends DataMapper {
         
         try {
             $sql = "SELECT
-                        vid.*,
-                        COUNT(DISTINCT lik.id) AS likes ,
-                        COUNT(DISTINCT dis.id) AS dislikes
+                        vid.id,
+                            vid.title,
+                            vid.video_url,
+                            vid.thumbnail,
+                            vid.date,
+                            vid.views,
+                            vid.length AS duration,
+                            vid.hd,
+                            (COUNT(DISTINCT lik.id) + vid.default_likes) AS likes,
+                            (COUNT(DISTINCT dis.id) + vid.default_dislikes) AS dislikes
                     FROM videos AS vid
                     LEFT JOIN video_likes AS lik ON vid.id = lik.videos_id
                     LEFT JOIN video_dislikes dis ON vid.id = dis.videos_id
-                    WHERE vid.title LIKE ? OR vid.category LIKE ?
+                    WHERE vid.title LIKE ?
                     GROUP BY vid.id
-                    ORDER BY COUNT(lik.videos_id) DESC LIMIT 20";
+                    ORDER BY (COUNT(DISTINCT lik.id) + vid.default_likes) DESC LIMIT 20";
             
             $statement = $this->connection->prepare($sql);
             $success = $statement->execute([
-                '%' . $term . '%',
                 '%' . $term . '%'
             ]);
             
@@ -91,7 +104,7 @@ class VideoMapper extends DataMapper {
             }
             
         }catch(PDOException $e){
-          
+           die($e->getMessage());
             return [
                 'status' => 204,
                 'message' => $e->getMessage(),
@@ -110,14 +123,21 @@ class VideoMapper extends DataMapper {
      * @return number[]|array[]|NULL[]|number[]|string[]|array[]
      */
     public function getVideoData(int $id){
-        
+       
         try {
             // get video data
             $sql = "SELECT  
-                        vid.*,
-                        COUNT(DISTINCT lik.id) AS likes,
-                        COUNT(DISTINCT dis.id) AS dislikes,
-                        GROUP_CONCAT(DISTINCT act.name SEPARATOR ', ') as actors
+                        vid.id,
+                            vid.title,
+                            vid.video_url,
+                            vid.thumbnail,
+                            vid.date,
+                            vid.views,
+                            vid.length AS duration,
+                            vid.hd,
+                            (COUNT(DISTINCT lik.id) + vid.default_likes) AS likes,
+                            (COUNT(DISTINCT dis.id) + vid.default_dislikes) AS dislikes,
+                            GROUP_CONCAT(DISTINCT act.name SEPARATOR ', ') as actors
                     FROM videos AS vid
                     LEFT JOIN video_likes AS lik ON lik.videos_id = vid.id 
                     LEFT JOIN video_dislikes AS dis ON dis.videos_id = vid.id
@@ -195,11 +215,8 @@ class VideoMapper extends DataMapper {
 
             $sql = "UPDATE videos SET
                         title = ?,
-                        description = ?,
-                        category = ?,
                         thumbnail = ?,
                         video_url = ?,
-                        download_link = ?,
                         hd = ?,
                         date = ?,
                         views = ?,
@@ -209,11 +226,8 @@ class VideoMapper extends DataMapper {
             $statement = $this->connection->prepare($sql);
             $success = $statement->execute([
                 $video->getTitle(),
-                $video->getDescription(),
-                $video->getCategory(),
                 $video->getThumbnail(),
                 $video->getVideoUrl(),
-                $video->getDownloadLink(),
                 $video->getHd(),
                 $video->getDate(),
                 $video->getViews(),
@@ -226,10 +240,23 @@ class VideoMapper extends DataMapper {
                     'status' => 200,
                     'message' => 'Success'
                 ];
+                
+                
+                $sql = "UPDATE video_tags SET
+                        name = ?
+                    WHERE videos_id = ?";
+                
+                $statement = $this->connection->prepare($sql);
+                $success = $statement->execute([
+                    $video->getTags(),
+                    $video->getId()
+                ]);
+                
+                
             }
             
         }catch(PDOException $e){
-            
+            die($e->getMessage());
             return [
                 'status' => 304,
                 'message' => $e->getMessage()

@@ -17,10 +17,27 @@ class Videos {
     private $hd;
     private $pornstarId;
     private $comments;
+    private $tags;
     
     
     
     
+    /**
+     * @return mixed
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param mixed $tags
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+    }
+
     /**
      * @return mixed
      */

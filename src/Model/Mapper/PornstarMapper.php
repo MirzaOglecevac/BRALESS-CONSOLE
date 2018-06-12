@@ -147,11 +147,9 @@ class PornstarMapper extends DataMapper {
         
         try {
             $sql = "SELECT * FROM pornstars
-                    WHERE name LIKE ?
-                    OR about LIKE ?";
+                    WHERE name LIKE ?";
             $statement = $this->connection->prepare($sql);
             $success = $statement->execute([
-                '%' . $term . '%',
                 '%' . $term . '%'
             ]);
             
@@ -159,7 +157,7 @@ class PornstarMapper extends DataMapper {
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
                 ];
             }
             
@@ -225,13 +223,19 @@ class PornstarMapper extends DataMapper {
         
         try {
             $sql = "SELECT 
-                        porn.*, 
+                        porn.id,
+                        porn.name,
+                        porn.age,
+                        porn.about,
+                        porn.sex,
+                        porn.profile_image,
+                        porn.banner_image,
+                        porn.country,
+                        porn.default_profile_views AS profile_views, 
 						COUNT(DISTINCT center.id) AS num_of_videos,
-						COUNT(DISTINCT sub.id) AS subscribers,
-                        COUNT(DISTINCT centerimg.id) AS num_of_images
+						(COUNT(DISTINCT sub.id) + porn.default_subscribers) AS subscribers
                     FROM pornstars AS porn
 					LEFT JOIN pornstars_has_videos AS center ON porn.id = center.pornstars_id
-                    LEFT JOIN pornstars_has_images AS centerimg ON porn.id = centerimg.pornstars_id
                     LEFT JOIN pornstar_subscribers AS sub ON porn.id = sub.pornstars_id
                     WHERE porn.id = ?
                     GROUP BY porn.id";

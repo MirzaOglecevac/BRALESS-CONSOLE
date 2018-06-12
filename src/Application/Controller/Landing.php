@@ -49,15 +49,15 @@ class Landing {
     
     public function scrapPornstarProfiles(){
     
-        //for($i = 1; $i < 2; $i++){
-            $html = file_get_contents('https://www.xvideos.com/pornstars-index/'); // . $i
+        for($i = 1; $i < 3; $i++){
+        $html = file_get_contents('https://www.xvideos.com/pornstars-index/' . $i); // . $i
             $xvideos_doc = new \DOMDocument();
             libxml_use_internal_errors(TRUE);
             
             if(!empty($html)){
                 $this->scraperService->scrapPornstars($html, $xvideos_doc);
             }
-        //}
+        }
     }
     
     
