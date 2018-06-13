@@ -12,7 +12,21 @@ class TermsService {
     public function __construct(TermsMapper $termsMapper){
         $this->termsMapper = $termsMapper;
     }
-    
+
+
+    public function getTerms():ResponseBootstrap {
+
+        // create response object
+        $response = new ResponseBootstrap();
+
+        $data = $this->termsMapper->getTerms();
+
+        $response->setStatus($data['status']);
+        $response->setMessage($data['message']);
+        $response->setData($data['data']);
+
+        return $response;
+    }
     
     /**
      * Update terms and conditions service

@@ -13,7 +13,12 @@ class TermsController {
     public function __construct(TermsService $termsService){
         $this->termsService = $termsService;
     }
-    
+
+
+    public function getData(Request $request):ResponseBootstrap {
+
+            return $this->termsService->getTerms();
+    }
     
     /**
      * Update terms and conditions controller

@@ -86,7 +86,8 @@ class ImageMapper extends DataMapper {
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
-                    'data' => $statement->fetchAll(PDO::FETCH_ASSOC)
+                    'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
+
                 ];
             }
             
@@ -95,7 +96,8 @@ class ImageMapper extends DataMapper {
             return [
                 'status' => 204,
                 'message' => $e->getMessage(),
-                'data' => []
+                'data' => ['data' => []]
+
             ];
         }
         

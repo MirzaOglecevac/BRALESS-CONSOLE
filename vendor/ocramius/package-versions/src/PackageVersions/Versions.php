@@ -55,7 +55,7 @@ final class Versions
   'zendframework/zend-validator' => 'dev-develop@a64ea16734ce1eaf6697ba154dc9ed765f3e055f',
   'zendframework/zend-xmlrpc' => 'dev-develop@4b3391c96d97397da4707b978aaa06f90a342249',
   'zendframework/zendxml' => 'dev-develop@2effffd2318ca24417428b018dd879af1ce1e720',
-  'spartanapps/exercises' => 'No version set (parsed as 1.0.0)@',
+  'spartanapps/exercises' => 'dev-master@e2f77857c8ba8d845b1913cfb06614089bfebad8',
 );
 
     private function __construct()

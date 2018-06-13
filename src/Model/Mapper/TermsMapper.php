@@ -42,4 +42,32 @@ class TermsMapper extends DataMapper {
         
         return $result;
     }
+
+
+    public function getTerms(){
+
+        try {
+            $sql = "SELECT * FROM terms WHERE id = 1";
+            $statement = $this->connection->prepare($sql);
+            $success = $statement->execute();
+
+            if($success){
+                $result = [
+                    'status' => 200,
+                    'message' => 'Success',
+                   "data" => $statement->fetchAll(PDO::FETCH_ASSOC)
+                ];
+            }
+
+        }catch(PDOException $e){
+            return [
+                'status' => 304,
+                'message' => $e->getMessage(),
+                "data" => ["data" => []]
+
+            ];
+        }
+
+        return $result;
+    }
 }
