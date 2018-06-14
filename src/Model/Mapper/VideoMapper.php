@@ -470,5 +470,46 @@ class VideoMapper extends DataMapper {
         
         return $result;
     }
-    
+
+
+
+    public function getVideoComments(int $id){
+
+        try {
+            // get video data
+            $sql = "SELECT 
+                        comm.*,
+                        us.username,
+                        us.profile_image 
+                        FROM video_comments AS comm
+                         INNER JOIN users AS us ON comm.users_id = us.id
+                         WHERE comm.videos_id = ?
+                        ";
+            $statement = $this->connection->prepare($sql);
+            $success = $statement->execute([
+                $id
+            ]);
+
+
+            if($success){
+                $result = [
+                    'status' => 200,
+                    'message' => 'Success',
+                    'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
+                ];
+            }
+
+        }catch(PDOException $e){
+
+            return [
+                'status' => 204,
+                'message' => $e->getMessage(),
+                'data' => []
+            ];
+        }
+
+        return $result;
+    }
+
+
 }

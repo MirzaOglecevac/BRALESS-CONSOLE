@@ -32,7 +32,7 @@ class TermsController {
         $data = json_decode($request->getContent(), true);
         $id = $data['id'];
         $content = $data['content'];
-        
+
         // create response object
         $response = new ResponseBootstrap();
         

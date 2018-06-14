@@ -115,5 +115,26 @@ class AdminService {
         
         return $response;
     }
+
+
+    public function loginAdmin(string $username, string $password):ResponseBootstrap {
+
+        // create response object
+        $response = new ResponseBootstrap();
+
+        // create entity ans set its values
+        $admin = new Admins();
+        $admin->setName($username);
+        $admin->setPassword($password);
+
+        // get response from mapper
+        $data = $this->adminMapper->loginAdmin($admin);
+
+        $response->setStatus($data['status']);
+        $response->setMessage($data['message']);
+        $response->setData($data['data']);
+
+        return $response;
+    }
     
 }

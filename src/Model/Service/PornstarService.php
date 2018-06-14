@@ -53,7 +53,7 @@ class PornstarService {
      * @param int $subscribers
      * @return \Model\Entity\ResponseBootstrap
      */
-    public function updatePornstar(int $id, string $name, string $sex, int $age, string $about, string $profileImage, string $bannerImage,  string $country, int $totalVideoViews, int $totalProfileViews, int $subscribers){
+    public function updatePornstar(int $id, string $name, string $sex, int $age, string $about, string $profileImage, string $bannerImage,  string $country){
         
         // create response object
         $response = new ResponseBootstrap();
@@ -68,9 +68,9 @@ class PornstarService {
         $pornstar->setProfileImage($profileImage);
         $pornstar->setAge($age);
         $pornstar->setCountry($country);
-        $pornstar->setDefaultTotalVideoViews($totalVideoViews);
-        $pornstar->setDefaultProfileViews($totalProfileViews);
-        $pornstar->setDefaultSubscribers($subscribers);
+        //$pornstar->setDefaultTotalVideoViews($totalVideoViews);
+        //$pornstar->setDefaultProfileViews($totalProfileViews);
+        //$pornstar->setDefaultSubscribers($subscribers);
         
         $data = $this->pornstarMapper->updatePornstar($pornstar);
         

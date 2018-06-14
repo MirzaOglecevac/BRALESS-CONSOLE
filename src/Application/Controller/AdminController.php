@@ -112,5 +112,28 @@ class AdminController {
         return $response;
         
     }
-    
+
+    public function postLogin(Request $request):ResponseBootstrap {
+
+        // get body data
+        $data = json_decode($request->getContent(), true);
+        $username = $data['name'];
+        $password = $data['password'];
+
+        // create response object
+        $response = new ResponseBootstrap();
+
+        // check body values
+        if($username && $password){
+            // call service
+            return $this->adminService->loginAdmin($username, $password);
+        }else {
+            $response->setStatus(404);
+            $response->setMessage('Bad request.');
+        }
+
+        return $response;
+    }
+
+
 }

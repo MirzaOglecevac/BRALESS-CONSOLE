@@ -132,27 +132,27 @@ class ImageMapper extends DataMapper {
            
             
             // get video comments
-            $sqlCom = "SELECT
-                        com.* ,
-                        us.profile_image,
-                        us.username
-                    FROM image_comments AS com
-                    LEFT JOIN users AS us ON  us.id = com.users_id
-                    WHERE images_id = ?
-                    GROUP BY com.id";
+//            $sqlCom = "SELECT
+//                        com.* ,
+//                        us.profile_image,
+//                        us.username
+//                    FROM image_comments AS com
+//                    LEFT JOIN users AS us ON  us.id = com.users_id
+//                    WHERE images_id = ?
+//                    GROUP BY com.id";
             
-            $statementCom = $this->connection->prepare($sqlCom);
-            $successCom = $statementCom->execute([
-                $id
-            ]);
+//            $statementCom = $this->connection->prepare($sqlCom);
+//            $successCom = $statementCom->execute([
+//                $id
+//            ]);
             
             
             // merge data
             $data = $statement->fetchAll(PDO::FETCH_ASSOC);
-            $data[0]['comments'] = $statementCom->fetchAll(PDO::FETCH_ASSOC);
+            // $data[0]['comments'] = $statementCom->fetchAll(PDO::FETCH_ASSOC);
             
             
-            if($success && $successCom){
+            if($success ){ // && $successCom
                 $result = [
                     'status' => 200,
                     'message' => 'Success',
@@ -186,7 +186,6 @@ class ImageMapper extends DataMapper {
             $sql = "UPDATE images SET
                         title = ?,
                         description = ?,
-                        thumbnail = ?,
                         image_link = ?,
                         date = ?
                     WHERE id = ?";
@@ -195,7 +194,6 @@ class ImageMapper extends DataMapper {
             $success = $statement->execute([
                 $image->getTitle(),
                 $image->getDescription(),
-                $image->getThumbnail(),
                 $image->getImageLink(),
                 $image->getDate(),
                 $image->getId()
@@ -390,4 +388,47 @@ class ImageMapper extends DataMapper {
         
         return $result;
     }
+
+
+
+    public function getImageComments(int $id){
+
+        try {
+
+          $sql = "SELECT
+                        com.* ,
+                        us.profile_image,
+                        us.username
+                    FROM image_comments AS com
+                    LEFT JOIN users AS us ON  us.id = com.users_id
+                    WHERE images_id = ?
+                    GROUP BY com.id";
+
+            $statement = $this->connection->prepare($sql);
+            $success = $statement->execute([
+                $id
+            ]);
+
+
+            if($success){
+                $result = [
+                    'status' => 200,
+                    'message' => 'Success',
+                    'data' => ['data' => $statement->fetchAll(PDO::FETCH_ASSOC)]
+                ];
+            }
+
+        }catch(PDOException $e){
+
+            return [
+                'status' => 204,
+                'message' => $e->getMessage(),
+                'data' => []
+            ];
+        }
+
+        return $result;
+    }
+
+
 }

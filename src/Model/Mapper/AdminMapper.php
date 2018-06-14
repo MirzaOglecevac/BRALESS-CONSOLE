@@ -146,5 +146,67 @@ class AdminMapper extends DataMapper {
         
         return $result;
     }
+
+
+    public function loginAdmin(Admins $admin){
+
+        try {
+
+            // check if user is registered
+            $sql = "SELECT * FROM admins WHERE name = ?";
+            $statement = $this->connection->prepare($sql);
+            $statement->execute([
+                $admin->getName()
+            ]);
+
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+            if($result['name'] === $admin->getName()){
+
+                // encrypt password and check if it match
+                //$password = md5($users->getPassword());
+                $password = $admin->getPassword();
+
+                if($password === $result['password']){
+                    $response = [
+                        'status' => 200,
+                        'message' => 'Successfull login',
+                        'data' => [
+                            'username' => $result['name'],
+                            'profile_image' => $result['image']
+                        ]
+                    ];
+                }else {
+                    $response = [
+                        'status' => 401,
+                        'message' => 'Bad password',
+                        'data' => [
+                            'info' => 'Bad password'
+                        ]
+                    ];
+                }
+
+            }else {
+                $response = [
+                    'status' => 401,
+                    'message' => 'Bad username',
+                    'data' => [
+                        'info' => 'Bad username'
+                    ]
+                ];
+            }
+
+        }catch(PDOException $e){
+            return [
+                'status' => 406,
+                'message' => $e->getMessage(),
+                'data' => [
+                    'info' => 'Bad user data'
+                ]
+            ];
+        }
+
+        return $response;
+    }
     
 }

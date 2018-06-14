@@ -259,5 +259,21 @@ class VideoService {
         
         return $response;
     }
-    
+
+
+    public function getVideoComments(int $id):ResponseBootstrap {
+
+        // create response object
+        $response = new ResponseBootstrap();
+
+        $data = $this->videoMapper->getVideoComments($id);
+
+        $response->setStatus($data['status']);
+        $response->setMessage($data['message']);
+        $response->setData($data['data']);
+
+        return $response;
+    }
+
+
 }

@@ -91,7 +91,7 @@ class ImageService {
      * @param string $date
      * @return ResponseBootstrap
      */
-    public function updateData(int $id, string $title, string $description, string $thumbnail, string $imageUrl, string $date):ResponseBootstrap {
+    public function updateData(int $id, string $title, string $description, string $imageUrl, string $date):ResponseBootstrap {
         
         // create response object
         $response = new ResponseBootstrap();
@@ -101,7 +101,6 @@ class ImageService {
         $image->setId($id);
         $image->setTitle($title);
         $image->setDescription($description);
-        $image->setThumbnail($thumbnail);
         $image->setImageLink($imageUrl);
         $image->setDate($date);
         
@@ -189,7 +188,7 @@ class ImageService {
         // create response object
         $response = new ResponseBootstrap();
         
-        $data = $this->imageMapper->deleteComment($id);
+        $data = $this->imageMapper->deleteImageData($id);
         
         $response->setStatus($data['status']);
         $response->setMessage($data['message']);
@@ -214,6 +213,21 @@ class ImageService {
         $response->setStatus($data['status']);
         $response->setMessage($data['message']);
         
+        return $response;
+    }
+
+
+    public function getImageComments(int $id):ResponseBootstrap {
+
+        // create response object
+        $response = new ResponseBootstrap();
+
+        $data = $this->imageMapper->getImageComments($id);
+
+        $response->setStatus($data['status']);
+        $response->setMessage($data['message']);
+        $response->setData($data['data']);
+
         return $response;
     }
 }

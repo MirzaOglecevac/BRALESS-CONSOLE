@@ -106,7 +106,6 @@ class ImageController {
         $id = $data['id'];
         $title = $data['title'];
         $description = $data['description'];
-        $thumbnail = $data['thumbnail'];
         $imageUrl = $data['image_url'];
         $date = $data['date'];
         
@@ -114,7 +113,7 @@ class ImageController {
         $response = new ResponseBootstrap();
         
         if(isset($id)){
-            return $this->imageService->updateData($id, $title, $description, $thumbnail, $imageUrl, $date);
+            return $this->imageService->updateData($id, $title, $description, $imageUrl, $date);
         }else {
             $response->setStatus(404);
             $response->setMessage('Bad request.');
@@ -232,6 +231,25 @@ class ImageController {
             $response->setMessage('Bad request.');
         }
         
+        return $response;
+    }
+
+
+    public function getComments(Request $request):ResponseBootstrap {
+
+        // take data from url
+        $id = $request->get('id');
+
+        // create response object
+        $response = new ResponseBootstrap();
+
+        if(isset($id)){
+            return $this->imageService->getImageComments($id);
+        }else {
+            $response->setStatus(404);
+            $response->setMessage('Bad request.');
+        }
+
         return $response;
     }
     

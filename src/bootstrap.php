@@ -76,6 +76,7 @@ $response->setStatusCode(
 // preflighted request handle
 if($request->getMethod() === 'OPTIONS'){
     // set status
+
     $response->setStatusCode((int)200);
 }
 // headers

@@ -268,6 +268,24 @@ class VideoController {
         
         return $response;
     }
+
+    public function getComments(Request $request):ResponseBootstrap {
+
+        // take data from url
+        $id = $request->get('id');
+
+        // create response object
+        $response = new ResponseBootstrap();
+
+        if(isset($id)){
+            return $this->videoService->getVideoComments($id);
+        }else {
+            $response->setStatus(404);
+            $response->setMessage('Bad request.');
+        }
+
+        return $response;
+    }
     
     
 }
