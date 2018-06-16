@@ -9,6 +9,28 @@ class Admins {
     private $email;
     private $scope;
     private $password;
+    private $image;
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     */
+    public function setImage($image): void
+    {
+        $this->image = $image;
+    }
+
+
+
     /**
      * @return mixed
      */

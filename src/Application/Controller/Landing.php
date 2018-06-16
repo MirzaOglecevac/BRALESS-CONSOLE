@@ -17,14 +17,33 @@ class Landing {
 
     
     
-    public function get(Request $request):ResponseBootstrap {
-      
+    public function post(Request $request):ResponseBootstrap {
+
+       // $subject = $request->get('subject');
+       // $url = $request->get('url');
+
+        // take parametar from the body
+        $data = json_decode($request->getContent(), true);
+        $subject = $data['subject'];
+        $url = $data['url'];
+        $from = $data['from'];
+        $limit = $data['limit'];
+
         // create response object
         $response = new ResponseBootstrap();
-        
-        
-        // $this->scrapVideos();
-         $this->scrapPornstarProfiles();
+
+        if($subject == "video"){
+            $this->scrapVideo($url);
+        }else if($subject == "videos"){
+            $this->scrapVideos($from, $limit);
+        }else if($subject == "pornstars"){
+            $this->scrapPornstars($from, $limit);
+        }else if($subject == "pornstar"){
+            $this->scrapPornstar($url);
+        }else {
+
+        }
+
         
         $response->setStatus(200);
         $response->setMessage('Finished');
@@ -32,25 +51,43 @@ class Landing {
     }
     
     
-    public function scrapVideos(){
-        //
-        for($i = 1; $i < 2; $i++){
-            $html = file_get_contents('https://www.xvideos.com/new/' . $i);
+    public function scrapVideos($from, $limit){
+
+        $from = $from - 1;
+        $limit = $limit - 1;
+
+        for($i = $from; $i < $limit; $i++){
+
+            if($from == 0){
+                $html = file_get_contents('https://www.xvideos.com');
+            }else {
+                $html = file_get_contents('https://www.xvideos.com/new/' . $i);
+            }
+
             $xvideos_doc = new \DOMDocument();
             libxml_use_internal_errors(TRUE);
-            
+
             if(!empty($html)){
                 $this->scraperService->scrapVideos($html, $xvideos_doc, null);
             }
         }
-        
+
     }
     
     
-    public function scrapPornstarProfiles(){
-    
-        for($i = 1; $i < 3; $i++){
-        $html = file_get_contents('https://www.xvideos.com/pornstars-index/' . $i); // . $i
+    public function scrapPornstars($from, $limit){
+
+        $from = $from - 1;
+        $limit = $limit - 1;
+
+        for($i = $from; $i < $limit; $i++){
+
+            if($from == 0){
+                $html = file_get_contents('https://www.xvideos.com/pornstars-index');
+            }else {
+                $html = file_get_contents('https://www.xvideos.com/pornstars-index/' . $i);
+            }
+
             $xvideos_doc = new \DOMDocument();
             libxml_use_internal_errors(TRUE);
             
@@ -59,10 +96,37 @@ class Landing {
             }
         }
     }
-    
-    
-    
-    
+
+
+
+
+
+
+    public function scrapVideo($url){
+
+            $html = file_get_contents($url);
+            $xvideos_doc = new \DOMDocument();
+            libxml_use_internal_errors(TRUE);
+
+            if(!empty($html)){
+                $this->scraperService->scrapVideo($html, $xvideos_doc);
+            }
+
+    }
+
+
+
+    public function scrapPornstar($url){
+
+        $html = file_get_contents($url);
+        $xvideos_doc = new \DOMDocument();
+        libxml_use_internal_errors(TRUE);
+
+        if(!empty($html)){
+            $this->scraperService->scrapPornstar($html, $xvideos_doc);
+        }
+
+    }
     
     
     

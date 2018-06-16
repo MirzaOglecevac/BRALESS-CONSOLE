@@ -45,7 +45,7 @@ class AdminService {
      * @param string $scope
      * @return \Model\Entity\ResponseBootstrap
      */
-    public function updateAdmin(int $id, string $name, string $email, string $scope){
+    public function updateAdmin(int $id, string $name, string $email, string $image){
         
         // create response object
         $response = new ResponseBootstrap();
@@ -55,7 +55,7 @@ class AdminService {
         $admin->setId($id);
         $admin->setName($name);
         $admin->setEmail($email);
-        $admin->setScope($scope);
+        $admin->setImage($image);
         
         $data = $this->adminMapper->updateAdmin($admin);
         
@@ -76,7 +76,7 @@ class AdminService {
      * @param string $password
      * @return \Model\Entity\ResponseBootstrap
      */
-    public function addAdmin(string $name, string $email, string $scope, string $password){
+    public function addAdmin(string $name, string $email, string $password, string $image){
         
         // create response object
         $response = new ResponseBootstrap();
@@ -85,8 +85,8 @@ class AdminService {
         $admin = new Admins();
         $admin->setName($name);
         $admin->setEmail($email);
-        $admin->setScope($scope);
         $admin->setPassword($password);
+        $admin->setImage($image);
         
         $data = $this->adminMapper->addAdmin($admin);
         

@@ -51,12 +51,12 @@ class AdminMapper extends DataMapper {
     public function updateAdmin(Admins $admin){
         
         try {
-            $sql = "UPDATE admins SET name = ?, email = ?, scope = ? WHERE id = ?";
+            $sql = "UPDATE admins SET name = ?, email = ?,  image = ? WHERE id = ?";
             $statement = $this->connection->prepare($sql);
             $success = $statement->execute([
                 $admin->getName(),
                 $admin->getEmail(),
-                $admin->getScope(),
+                $admin->getImage(),
                 $admin->getId()
             ]);
             
@@ -88,13 +88,13 @@ class AdminMapper extends DataMapper {
     public function addAdmin(Admins $admin){
         
         try {
-            $sql = "INSERT INTO admins (name, email, scope, password) VALUES (?,?,?,?)";
+            $sql = "INSERT INTO admins (name, email, password, image) VALUES (?,?,?,?)";
             $statement = $this->connection->prepare($sql);
             $success = $statement->execute([
                 $admin->getName(),
                 $admin->getEmail(),
-                $admin->getScope(),
-                $admin->getPassword()
+                $admin->getPassword(),
+                $admin->getImage()
             ]);
             
             if($success){

@@ -41,13 +41,13 @@ class AdminController {
         $id = $data['id'];
         $name = $data['name'];
         $email = $data['email'];
-        $scope = $data['scope'];
+        $image = $data['image'];
         
         // create response object
         $response = new ResponseBootstrap();
         
-        if(isset($id) && isset($name) && isset($email) && isset($scope)){
-            return $this->adminService->updateAdmin($id, $name, $email, $scope);
+        if(isset($id) && isset($name) && isset($email)){
+            return $this->adminService->updateAdmin($id, $name, $email, $image);
         }else {
             $response->setStatus(404);
             $response->setMessage('Bad request.');
@@ -70,14 +70,14 @@ class AdminController {
         $data = json_decode($request->getContent(), true);
         $name = $data['name'];
         $email = $data['email'];
-        $scope = $data['scope'];
         $password = $data['password'];
+        $image = $data['image'];
         
         // create response object
         $response = new ResponseBootstrap();
         
-        if(isset($password) && isset($name) && isset($email) && isset($scope)){
-            return $this->adminService->addAdmin($name, $email, $scope, $password);
+        if(isset($password) && isset($name) && isset($email)){
+            return $this->adminService->addAdmin($name, $email, $password, $image);
         }else {
             $response->setStatus(404);
             $response->setMessage('Bad request.');
