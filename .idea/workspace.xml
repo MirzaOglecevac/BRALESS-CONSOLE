@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0c9ec4b7-0e08-4913-9e94-5dad59167467" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Application/Controller/ImageController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Application/Controller/ImageController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Application/Controller/Landing.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Application/Controller/Landing.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Application/Controller/VideoController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Application/Controller/VideoController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Mapper/AdminMapper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Mapper/AdminMapper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Mapper/ImageMapper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Mapper/ImageMapper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Mapper/PornstarMapper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Mapper/PornstarMapper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Mapper/VideoMapper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Mapper/VideoMapper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Service/ImageService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Service/ImageService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Service/ScraperService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Service/ScraperService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Service/VideoService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Service/VideoService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bootstrap.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/bootstrap.php" afterDir="false" />
-    </list>
+    <list default="true" id="0c9ec4b7-0e08-4913-9e94-5dad59167467" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -33,7 +20,7 @@
       <file leaf-file-name="Landing.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Application/Controller/Landing.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
+            <state relative-caret-position="15">
               <caret line="99" column="56" selection-start-line="99" selection-start-column="56" selection-end-line="99" selection-end-column="56" />
             </state>
           </provider>
@@ -42,7 +29,7 @@
       <file leaf-file-name="ScraperService.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model/Service/ScraperService.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4869">
+            <state relative-caret-position="9000">
               <caret line="603" column="36" selection-start-line="603" selection-start-column="36" selection-end-line="603" selection-end-column="36" />
             </state>
           </provider>
@@ -51,7 +38,7 @@
       <file leaf-file-name="ScraperMapper.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model/Mapper/ScraperMapper.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="577">
+            <state relative-caret-position="1140">
               <caret line="80" column="5" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
             </state>
           </provider>
@@ -156,7 +143,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -229,6 +215,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -275,17 +262,17 @@
       <workItem from="1529218251324" duration="2215000" />
       <workItem from="1529231868477" duration="1988000" />
       <workItem from="1529243265506" duration="738000" />
+      <workItem from="1529249295617" duration="33000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26563000" />
+    <option name="totallyTimeSpent" value="26596000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="709" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8645669" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8629921" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -293,7 +280,7 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32913387" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info id="Structure" order="1" sideWeight="0.13543308" side_tool="true" visible="true" weight="0.25" />
+      <window_info id="Structure" order="1" sideWeight="0.13700788" side_tool="true" visible="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -635,21 +622,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/Mapper/ScraperMapper.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="577">
+        <state relative-caret-position="1140">
           <caret line="80" column="5" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/Service/ScraperService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4869">
+        <state relative-caret-position="9000">
           <caret line="603" column="36" selection-start-line="603" selection-start-column="36" selection-end-line="603" selection-end-column="36" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Application/Controller/Landing.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
+        <state relative-caret-position="15">
           <caret line="99" column="56" selection-start-line="99" selection-start-column="56" selection-end-line="99" selection-end-column="56" />
         </state>
       </provider>
