@@ -29,7 +29,7 @@ class ImageMapper extends DataMapper {
                     LEFT JOIN image_likes AS lik ON img.id = lik.images_id
                     LEFT JOIN image_dislikes AS dis ON img.id = dis.images_id
                     GROUP BY img.id
-                    ORDER BY COUNT(lik.images_id) DESC LIMIT :from,:limit";
+                    ORDER BY img.date DESC LIMIT :from,:limit";
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(':from', $from, PDO::PARAM_INT);
             $statement->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -229,14 +229,13 @@ class ImageMapper extends DataMapper {
         
         try {
             
-            $sql = "INSERT INTO images (title, description, thumbnail, image_link)
-                                VALUES (?, ?, ?, ?)";
+            $sql = "INSERT INTO images (title, description, image_link)
+                                VALUES (?, ?, ?)";
             
             $statement = $this->connection->prepare($sql);
             $success = $statement->execute([
                 $image->getTitle(),
                 $image->getDescription(),
-                $image->getThumbnail(),
                 $image->getImageLink()
             ]);
 
@@ -341,6 +340,14 @@ class ImageMapper extends DataMapper {
                     'status' => 200,
                     'message' => 'Success'
                 ];
+
+
+                // delete from pornstars_has_images if image belong to one of the pornstars
+                $sql = "DELETE FROM pornstars_has_images WHERE images_id = ?";
+                $statement = $this->connection->prepare($sql);
+                $statement->execute([
+                    $id
+                ]);
             }
             
         }catch(PDOException $e){

@@ -89,11 +89,15 @@ class AdminMapper extends DataMapper {
         
         try {
             $sql = "INSERT INTO admins (name, email, password, image) VALUES (?,?,?,?)";
+
+            // encrypt password
+            $password = password_hash($admin->getPassword(), PASSWORD_DEFAULT);
+
             $statement = $this->connection->prepare($sql);
             $success = $statement->execute([
                 $admin->getName(),
                 $admin->getEmail(),
-                $admin->getPassword(),
+                $password,
                 $admin->getImage()
             ]);
             
@@ -163,11 +167,9 @@ class AdminMapper extends DataMapper {
 
             if($result['name'] === $admin->getName()){
 
-                // encrypt password and check if it match
-                //$password = md5($users->getPassword());
-                $password = $admin->getPassword();
+                // decrypt  password and check if it match
 
-                if($password === $result['password']){
+                if(password_verify($admin->getPassword(), $result['password'])){
                     $response = [
                         'status' => 200,
                         'message' => 'Successfull login',

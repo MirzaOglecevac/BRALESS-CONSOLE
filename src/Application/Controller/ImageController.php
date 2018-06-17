@@ -133,18 +133,16 @@ class ImageController {
        
         // take parametar from the body
         $data = json_decode($request->getContent(), true);
-        $title = $data['title'];
-        $description = $data['description'];
-        $thumbnail = $data['thumbnail'];
+        $title = isset($data['title']) ? $data['title'] : NULL;
+        $description = isset($data['description']) ? $data['description'] : NULL;
         $imageUrl = $data['image_url'];
         $pornstarId = array_key_exists('pornstar_id', $data) ? $data['pornstar_id'] : 'false';
-      
         
         // create response object
         $response = new ResponseBootstrap();
         
-        if(isset($thumbnail) && isset($title) && isset($description) && isset($imageUrl)){
-            return $this->imageService->addData($title, $description, $thumbnail, $imageUrl, $pornstarId);
+        if(isset($imageUrl)){
+            return $this->imageService->addData($title, $description,  $imageUrl, $pornstarId);
         }else {
             $response->setStatus(404);
             $response->setMessage('Bad request.');

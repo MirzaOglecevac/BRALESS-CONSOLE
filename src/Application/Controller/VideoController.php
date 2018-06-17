@@ -110,15 +110,15 @@ class VideoController {
         //$downloadLink = $data['download_link'];
         $hd = $data['hd'];
         $date = $data['date'];
-        $views = $data['views'];
+        //$views = $data['views'];
         $length = $data['length'];
         $tags = $data['tags'];
      
         // create response object
         $response = new ResponseBootstrap();
         
-        if(isset($id) && isset($title) && isset($thumbnail) && isset($videoUrl) && isset($hd) && isset($date) && isset($views) && isset($length)){
-            return $this->videoService->updateData($id, $title, $thumbnail, $videoUrl, $hd, $date, $views, $length, $tags);
+        if(isset($id) && isset($title) && isset($thumbnail) && isset($videoUrl) && isset($hd) && isset($date) && isset($length)){
+            return $this->videoService->updateData($id, $title, $thumbnail, $videoUrl, $hd, $date,  $length, $tags);
         }else {
             $response->setStatus(404);
             $response->setMessage('Bad request.');

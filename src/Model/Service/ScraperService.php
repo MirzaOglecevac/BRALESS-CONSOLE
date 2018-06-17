@@ -408,7 +408,7 @@ class ScraperService
 
 
 
-    public function scrapVideo($html, \DOMDocument $xvideos_doc): ResponseBootstrap
+    public function scrapVideo($html, \DOMDocument $xvideos_doc, $pornstarId): ResponseBootstrap
     {
 
         // create response object
@@ -501,7 +501,7 @@ class ScraperService
                     $videos->setComments($comments);
                 }
 
-                $data = $this->scraperMapper->saveScrapedVideosData($videos, $tags, null);
+                $data = $this->scraperMapper->saveScrapedVideosData($videos, $tags, $pornstarId);
 
             }
 
@@ -601,7 +601,7 @@ class ScraperService
 
                 // get pornstar related videos and insert into database
 
-                for ($i = 0; $i < 5; $i++) {
+                for ($i = 0; $i < 15; $i++) {
                     $htmlSearchVideo = file_get_contents('https://www.xvideos.com/?k=' . $name . '&p=' . $i);
                     echo '<br/>?k=' . $name . '&p=' . $i . '<br/>';
                     $xvideos_search_video = new \DOMDocument();

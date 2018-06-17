@@ -113,17 +113,8 @@ class ImageService {
     }
     
     
-    /**
-     * Add image service
-     * 
-     * @param string $title
-     * @param string $description
-     * @param string $thumbnail
-     * @param string $imageUrl
-     * @param string $pornstarId
-     * @return ResponseBootstrap
-     */
-    public function addData(string $title, string $description, string $thumbnail, string $imageUrl, string $pornstarId):ResponseBootstrap {
+   
+    public function addData($title, $description, string $imageUrl, $pornstarId):ResponseBootstrap {
         
         // create response object
         $response = new ResponseBootstrap();
@@ -132,7 +123,6 @@ class ImageService {
         $image = new Images();
         $image->setTitle($title);
         $image->setDescription($description);
-        $image->setThumbnail($thumbnail);
         $image->setImageLink($imageUrl);
         $image->setPornstarId($pornstarId);
         

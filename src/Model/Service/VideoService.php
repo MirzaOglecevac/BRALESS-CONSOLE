@@ -95,7 +95,7 @@ class VideoService {
     * @param string $tags
     * @return ResponseBootstrap
     */
-    public function updateData(int $id, string $title, string $thumbnail, string $videoUrl, string $hd, string $date, int $views, int $length, string $tags):ResponseBootstrap {
+    public function updateData(int $id, string $title, string $thumbnail, string $videoUrl, string $hd, string $date, int $length, string $tags):ResponseBootstrap {
         
         // create response object
         $response = new ResponseBootstrap();
@@ -108,7 +108,7 @@ class VideoService {
         $video->setVideoUrl($videoUrl);
         $video->setHd($hd);
         $video->setDate($date);
-        $video->setViews($views);
+        //$video->setViews($views);
         $video->setLength($length);
         $video->setTags($tags);
         

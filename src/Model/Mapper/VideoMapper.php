@@ -88,7 +88,7 @@ class VideoMapper extends DataMapper {
                     LEFT JOIN video_dislikes dis ON vid.id = dis.videos_id
                     WHERE vid.title LIKE ?
                     GROUP BY vid.id
-                    ORDER BY (COUNT(DISTINCT lik.id) + vid.default_likes) DESC LIMIT 20";
+                    ORDER BY (COUNT(DISTINCT lik.id) + vid.default_likes) DESC LIMIT 200";
             
             $statement = $this->connection->prepare($sql);
             $success = $statement->execute([
@@ -219,7 +219,6 @@ class VideoMapper extends DataMapper {
                         video_url = ?,
                         hd = ?,
                         date = ?,
-                        views = ?,
                         length = ?
                     WHERE id = ?";
             
@@ -230,7 +229,6 @@ class VideoMapper extends DataMapper {
                 $video->getVideoUrl(),
                 $video->getHd(),
                 $video->getDate(),
-                $video->getViews(),
                 $video->getLength(),
                 $video->getId()
             ]);
@@ -247,7 +245,7 @@ class VideoMapper extends DataMapper {
                     WHERE videos_id = ?";
                 
                 $statement = $this->connection->prepare($sql);
-                $success = $statement->execute([
+                $statement->execute([
                     $video->getTags(),
                     $video->getId()
                 ]);
@@ -425,6 +423,15 @@ class VideoMapper extends DataMapper {
                     'status' => 200,
                     'message' => 'Success'
                 ];
+
+
+                // delete from pornstars_has_videos if video belong to one of the pornstars
+                $sql = "DELETE FROM pornstars_has_videos WHERE videos_id = ?";
+                $statement = $this->connection->prepare($sql);
+                $statement->execute([
+                    $id
+                ]);
+
             }
             
         }catch(PDOException $e){

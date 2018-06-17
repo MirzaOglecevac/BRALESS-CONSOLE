@@ -24,6 +24,7 @@ class PornstarMapper extends DataMapper {
                       *
                     FROM 
                     pornstars
+                    ORDER BY default_subscribers DESC
                     LIMIT :from,:limit";
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(':from', $from, PDO::PARAM_INT);
@@ -118,6 +119,15 @@ class PornstarMapper extends DataMapper {
                     'status' => 200,
                     'message' => 'Success'
                 ];
+
+
+                // delete pornstar images if exists
+                $sql = "DELETE FROM pornstars_has_images WHERE pornstars_id = ?";
+                $statement = $this->connection->prepare($sql);
+                $statement->execute([
+                    $id
+                ]);
+
             }
             
         }catch(PDOException $e){
@@ -227,9 +237,11 @@ class PornstarMapper extends DataMapper {
                         porn.country,
                         porn.default_profile_views AS profile_views, 
 						COUNT(DISTINCT center.id) AS num_of_videos,
+						COUNT(DISTINCT center_img.id) AS num_of_images,
 						(COUNT(DISTINCT sub.id) + porn.default_subscribers) AS subscribers
                     FROM pornstars AS porn
 					LEFT JOIN pornstars_has_videos AS center ON porn.id = center.pornstars_id
+					LEFT JOIN pornstars_has_images AS center_img ON porn.id = center_img.pornstars_id
                     LEFT JOIN pornstar_subscribers AS sub ON porn.id = sub.pornstars_id
                     WHERE porn.id = ?
                     GROUP BY porn.id";
