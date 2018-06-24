@@ -15,7 +15,16 @@ class Landing {
         $this->scraperService = $scraperService;
     }
 
-    
+
+    public function get(Request $request):ResponseBootstrap{
+
+        // create response object
+        $response = new ResponseBootstrap();
+
+        $response->setStatus(200);
+        $response->setMessage('Welcome to the Braless console API');
+        return $response;
+    }
     
     public function post(Request $request):ResponseBootstrap {
 

@@ -6,20 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Zend\\XmlRpc\\' => array($vendorDir . '/zendframework/zend-xmlrpc/src'),
-    'Zend\\Validator\\' => array($vendorDir . '/zendframework/zend-validator/src'),
-    'Zend\\Uri\\' => array($vendorDir . '/zendframework/zend-uri/src'),
     'Zend\\Stdlib\\' => array($vendorDir . '/zendframework/zend-stdlib/src'),
-    'Zend\\Soap\\' => array($vendorDir . '/zendframework/zend-soap/src'),
-    'Zend\\Server\\' => array($vendorDir . '/zendframework/zend-server/src'),
-    'Zend\\Math\\' => array($vendorDir . '/zendframework/zend-math/src'),
-    'Zend\\Loader\\' => array($vendorDir . '/zendframework/zend-loader/src'),
-    'Zend\\Json\\' => array($vendorDir . '/zendframework/zend-json/src'),
     'Zend\\Hydrator\\' => array($vendorDir . '/zendframework/zend-hydrator/src'),
-    'Zend\\Http\\' => array($vendorDir . '/zendframework/zend-http/src'),
-    'Zend\\Escaper\\' => array($vendorDir . '/zendframework/zend-escaper/src'),
     'Zend\\Code\\' => array($vendorDir . '/zendframework/zend-code/src'),
-    'ZendXml\\' => array($vendorDir . '/zendframework/zendxml/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
@@ -42,7 +31,6 @@ return array(
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'PackageVersions\\' => array($vendorDir . '/ocramius/package-versions/src/PackageVersions'),
-    'Interop\\Container\\' => array($vendorDir . '/container-interop/container-interop/src/Interop/Container'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib/Doctrine/Common/Lexer'),
     'Doctrine\\Common\\Annotations\\' => array($vendorDir . '/doctrine/annotations/lib/Doctrine/Common/Annotations'),
     'CodeGenerationUtils\\' => array($vendorDir . '/ocramius/code-generator-utils/src/CodeGenerationUtils'),

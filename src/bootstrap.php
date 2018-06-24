@@ -82,7 +82,7 @@ if($request->getMethod() === 'OPTIONS'){
 // headers
 $response->headers->set('Access-Control-Allow-Origin', '*');
 $response->headers->set('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
-//$response->headers->set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+$response->headers->set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 $response->headers->set('Access-Control-Allow-Credentials', 'true');
 $response->headers->set("Access-Control-Max-Age", "1728000");
 // return response

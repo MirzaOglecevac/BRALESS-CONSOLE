@@ -463,7 +463,11 @@ class ScraperService
                 $duration = ((int)$duration[0] * 60) + (int)substr($duration, 2);
 
             } else {
-                $duration = (int)$duration;
+
+                if(strpos($duration, 'min') !== false){
+                    $duration = (int)$duration;
+                }
+
             }
 
             $hd = isset($xvideos_duration_hd[1]) ? 'true' : 'false';

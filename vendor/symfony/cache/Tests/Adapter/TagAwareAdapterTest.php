@@ -14,6 +14,7 @@ namespace Symfony\Component\Cache\Tests\Adapter;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
+use Symfony\Component\Cache\CacheItem;
 
 /**
  * @group time-sensitive
@@ -69,6 +70,12 @@ class TagAwareAdapterTest extends AdapterTestCase
         $this->assertFalse($pool->getItem('i1')->isHit());
         $this->assertFalse($pool->getItem('i3')->isHit());
         $this->assertTrue($pool->getItem('foo')->isHit());
+
+        $anotherPoolInstance = $this->createCachePool();
+
+        $this->assertFalse($anotherPoolInstance->getItem('i1')->isHit());
+        $this->assertFalse($anotherPoolInstance->getItem('i3')->isHit());
+        $this->assertTrue($anotherPoolInstance->getItem('foo')->isHit());
     }
 
     public function testInvalidateCommits()
@@ -132,6 +139,9 @@ class TagAwareAdapterTest extends AdapterTestCase
         $this->assertFalse($pool->getItem('foo')->isHit());
     }
 
+    /**
+     * @group legacy
+     */
     public function testGetPreviousTags()
     {
         $pool = $this->createCachePool();
@@ -141,6 +151,17 @@ class TagAwareAdapterTest extends AdapterTestCase
 
         $i = $pool->getItem('k');
         $this->assertSame(array('foo' => 'foo'), $i->getPreviousTags());
+    }
+
+    public function testGetMetadata()
+    {
+        $pool = $this->createCachePool();
+
+        $i = $pool->getItem('k');
+        $pool->save($i->tag('foo'));
+
+        $i = $pool->getItem('k');
+        $this->assertSame(array('foo' => 'foo'), $i->getMetadata()[CacheItem::METADATA_TAGS]);
     }
 
     public function testPrune()

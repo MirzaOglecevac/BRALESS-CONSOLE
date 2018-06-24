@@ -7,7 +7,6 @@
       <excludeFolder url="file://$MODULE_DIR$/temp" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/container-interop/container-interop" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/annotations" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/lexer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
@@ -15,7 +14,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/ocramius/generated-hydrator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ocramius/package-versions" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ocramius/proxy-manager" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/paragonie/random_compat" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/cache" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/container" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/log" />
@@ -37,19 +35,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/routing" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/yaml" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-code" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-escaper" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-http" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-hydrator" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-json" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-loader" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-math" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-server" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-soap" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-stdlib" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-uri" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-validator" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zend-xmlrpc" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/zendframework/zendxml" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
