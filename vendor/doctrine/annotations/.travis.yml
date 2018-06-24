@@ -1,0 +1,31 @@
+dist: trusty
+sudo: false
+language: php
+
+php:
+  - 7.1
+  - 7.2
+  - nightly
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+before_install:
+  - mv ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini{,.disabled} || echo "xdebug not available"
+  - composer self-update
+
+install: travis_retry composer update --prefer-dist
+
+script:
+  - ./vendor/bin/phpunit
+
+jobs:
+  allow_failures:
+    - php: nightly
+
+  include:
+    - stage: Lint
+      before_script:
+        - travis_retry composer require --dev --prefer-dist --prefer-stable phpstan/phpstan:^0.7
+      script: vendor/bin/phpstan analyse -l 3 -c phpstan.neon lib tests

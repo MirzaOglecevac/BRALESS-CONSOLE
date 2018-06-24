@@ -84,7 +84,11 @@ class ScraperService
                 $duration = ((int)$duration[0] * 60) + (int)substr($duration, 2);
 
             } else {
-                $duration = (int)$duration;
+
+                if(strpos($duration, 'min') !== false){
+                    $duration = (int)$duration;
+                }
+
             }
 
             $hd = isset($xvideos_duration_hd[1]) ? 'true' : 'false';
@@ -194,7 +198,9 @@ class ScraperService
 
 
             // get pornstar name
-            $xvideos_name = $path->query("//span[@class='mobile-hide']/strong[@class='text-danger']");
+            //$xvideos_name = $path->query("//span[@class='mobile-hide']/strong[@class='text-danger']");
+            $xvideos_name = $path->query("//strong[@class='text-danger']");
+
             $name = $xvideos_name[0]->nodeValue == null ? null : $xvideos_name[0]->nodeValue;
 
 
@@ -354,7 +360,11 @@ class ScraperService
                 $duration = ((int)$duration[0] * 60) + (int)substr($duration, 2);
 
             } else {
-                $duration = (int)$duration;
+
+                if(strpos($duration, 'min') !== false){
+                    $duration = (int)$duration;
+                }
+
             }
 
 
@@ -529,6 +539,8 @@ class ScraperService
         // create response object
         $response = new ResponseBootstrap();
 
+
+
         $xvideos_doc->loadHTML($html);
         libxml_clear_errors();
 
@@ -536,9 +548,12 @@ class ScraperService
             $path = new \DOMXPath($xvideos_doc);
 
             // get pornstar name
-            $xvideos_name = $path->query("//span[@class='mobile-hide']/strong[@class='text-danger']");
-            $name = $xvideos_name[0]->nodeValue == null ? null : $xvideos_name[0]->nodeValue;
+            // $xvideos_name = $path->query("//span[@class='mobile-hide']/strong[@class='text-danger']");
+        $xvideos_name = $path->query("//strong[@class='text-danger']");
 
+        $name = $xvideos_name[0]->nodeValue == null ? null : $xvideos_name[0]->nodeValue;
+
+        //die($name);
 
             // get pornstar gender
             $xvideos_gender = $path->query("//p[@id='pinfo-sex']/span");
@@ -605,7 +620,7 @@ class ScraperService
 
                 // get pornstar related videos and insert into database
 
-                for ($i = 0; $i < 15; $i++) {
+                for ($i = 0; $i < 5; $i++) {
                     $htmlSearchVideo = file_get_contents('https://www.xvideos.com/?k=' . $name . '&p=' . $i);
                     echo '<br/>?k=' . $name . '&p=' . $i . '<br/>';
                     $xvideos_search_video = new \DOMDocument();

@@ -50,6 +50,7 @@ class Landing {
         }else if($subject == "pornstars"){
             $this->scrapPornstars($from, $limit);
         }else if($subject == "pornstar"){
+
             $this->scrapPornstar($url);
         }else if($subject == "search"){
             $this->scrapSearch($from, $limit, $term);
