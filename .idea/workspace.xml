@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0c9ec4b7-0e08-4913-9e94-5dad59167467" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Application/Controller/Landing.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Application/Controller/Landing.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Model/Service/ScraperService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Model/Service/ScraperService.php" afterDir="false" />
-    </list>
+    <list default="true" id="0c9ec4b7-0e08-4913-9e94-5dad59167467" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -277,12 +273,12 @@
       <workItem from="1529480951347" duration="670000" />
       <workItem from="1529664196977" duration="114000" />
       <workItem from="1529858154628" duration="597000" />
-      <workItem from="1529861568120" duration="1289000" />
+      <workItem from="1529861568120" duration="1419000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34763000" />
+    <option name="totallyTimeSpent" value="34893000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="6" />
