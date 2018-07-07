@@ -95,6 +95,10 @@ class Landing {
         $from = $from - 1;
         $limit = $limit - 1;
 
+        if($term == trim($term) && strpos($term, ' ') !== false){
+            $term = str_replace(' ', '%20', $term);
+        }
+
         for($i = $from; $i < $limit; $i++){
 
             if($from == 0){

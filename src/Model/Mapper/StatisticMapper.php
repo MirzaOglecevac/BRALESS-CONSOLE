@@ -15,7 +15,7 @@ class StatisticMapper extends DataMapper {
      * @return number[]|array[]|NULL[]|number[]|string[]|array[]
      */
     public function getStatistic(){
-        
+
         try {
             $sql = "SELECT 
                         COUNT(DISTINCT vid.id) AS number_of_videos, 
@@ -23,7 +23,7 @@ class StatisticMapper extends DataMapper {
                         COUNT(DISTINCT img.id) AS number_of_images,
                         COUNT(DISTINCT us.id) AS number_of_users,
                         COUNT(DISTINCT porn.id) AS number_of_pornstars,
-                        COUNT(DISTINCT ad.id) AS number_of_ads
+                      COUNT(DISTINCT ad.id) AS number_of_ads 
                     FROM videos AS vid
                     INNER JOIN images AS img
                     INNER JOIN users AS us

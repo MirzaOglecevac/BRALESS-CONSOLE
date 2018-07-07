@@ -78,6 +78,8 @@ class ScraperService
             $xvideos_duration_hd = $path->query("//h2[contains(@class, 'page-title')]/span");
             $duration = $xvideos_duration_hd[0]->nodeValue;
 
+            $videoGood = 'yes';
+
             if (strpos($duration, 'h') !== false) {
                 $duration = str_replace('h', '', $duration);
                 $duration = str_replace('min', '', $duration);
@@ -87,6 +89,8 @@ class ScraperService
 
                 if(strpos($duration, 'min') !== false){
                     $duration = (int)$duration;
+                }else if (strpos($duration, 'sec') !== false){
+                    $videoGood = 'no';
                 }
 
             }
@@ -114,7 +118,7 @@ class ScraperService
 
 
             // call mapper to insert data into database
-            if (isset($video) && isset($views) && isset($title) && isset($duration) && isset($hd) && isset($tags) && isset($thumbnail)) {
+            if (isset($video) && isset($views) && isset($title) && isset($duration) && isset($hd) && isset($tags) && isset($thumbnail) && $videoGood == 'yes') {
                 // create videos entity and set its values
                 $videos = new Videos();
                 $videos->setTitle($title);
@@ -354,6 +358,8 @@ class ScraperService
             $xvideos_duration_hd = $path->query("//h2[contains(@class, 'page-title')]/span");
             $duration = $xvideos_duration_hd[0]->nodeValue;
 
+            $videoGood = 'yes';
+
             if (strpos($duration, 'h') !== false) {
                 $duration = str_replace('h', '', $duration);
                 $duration = str_replace('min', '', $duration);
@@ -363,10 +369,11 @@ class ScraperService
 
                 if(strpos($duration, 'min') !== false){
                     $duration = (int)$duration;
+                }else if (strpos($duration, 'sec') !== false){
+                    $videoGood = 'no';
                 }
 
             }
-
 
             $hd = isset($xvideos_duration_hd[1]) ? 'true' : 'false';
 
@@ -389,7 +396,7 @@ class ScraperService
 
 
             // call mapper to insert data into database
-            if (isset($video) && isset($views) && isset($title) && isset($duration) && isset($hd) && isset($tags) && isset($thumbnail)) {
+            if (isset($video) && isset($views) && isset($title) && isset($duration) && isset($hd) && isset($tags) && isset($thumbnail) && $videoGood == 'yes') {
                 // create videos entity and set its values
                 $videos = new Videos();
                 $videos->setTitle($title);
@@ -467,15 +474,19 @@ class ScraperService
             $xvideos_duration_hd = $path->query("//h2[contains(@class, 'page-title')]/span");
             $duration = $xvideos_duration_hd[0]->nodeValue;
 
+            $videoGood = 'yes';
+
             if (strpos($duration, 'h') !== false) {
-                $duration = str_replace('h', '', $duration);
-                $duration = str_replace('min', '', $duration);
-                $duration = ((int)$duration[0] * 60) + (int)substr($duration, 2);
+                    $duration = str_replace('h', '', $duration);
+                    $duration = str_replace('min', '', $duration);
+                    $duration = ((int)$duration[0] * 60) + (int)substr($duration, 2);
 
             } else {
 
                 if(strpos($duration, 'min') !== false){
                     $duration = (int)$duration;
+                }else if (strpos($duration, 'sec') !== false){
+                    $videoGood = 'no';
                 }
 
             }
@@ -502,7 +513,7 @@ class ScraperService
 
 
             // call mapper to insert data into database
-            if (isset($video) && isset($views) && isset($title) && isset($duration) && isset($hd) && isset($tags) && isset($thumbnail)) {
+            if (isset($video) && isset($views) && isset($title) && isset($duration) && isset($hd) && isset($tags) && isset($thumbnail)  && ($videoGood == 'yes')) {
                 // create videos entity and set its values
                 $videos = new Videos();
                 $videos->setTitle($title);
